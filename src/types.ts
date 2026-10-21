@@ -87,11 +87,25 @@ export interface BankAccount {
   branch: string;
 }
 
+export type OrderStatus = 'pending' | 'preparing' | 'in_transit' | 'delivered' | 'cancelled';
+
+export interface Coupon {
+  id: string;
+  code: string;
+  discountPercent?: number; // e.g. 10 for 10%
+  discountAmount?: number; // e.g. 100 for 100 TL
+  minSpend?: number;
+  description: string;
+  isActive: boolean;
+  usedCount: number;
+}
+
 export interface OrderReceipt {
   orderId: string;
   createdAt: string;
   paymentMethod: PaymentMethod;
   paymentStatus: 'paid' | 'pending_cod' | 'pending_transfer';
+  orderStatus: OrderStatus;
   customerName: string;
   customerPhone: string;
   customerAddress: string;
@@ -99,6 +113,12 @@ export interface OrderReceipt {
   items: CartItem[];
   subtotal: number;
   shippingCost: number;
+  discountAmount?: number;
+  couponCode?: string;
   grandTotal: number;
   installment?: number;
+  notes?: string;
+  courierName?: string;
+  courierPhone?: string;
 }
+

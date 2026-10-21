@@ -7,6 +7,7 @@ interface NavbarProps {
   cartCount: number;
   onOpenCart: () => void;
   onOpenCustomizer: () => void;
+  onOpenAdmin?: () => void;
   activeSection: string;
   onNavigate: (sectionId: string) => void;
 }
@@ -16,6 +17,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   cartCount,
   onOpenCart,
   onOpenCustomizer,
+  onOpenAdmin,
   activeSection,
   onNavigate,
 }) => {
@@ -87,15 +89,27 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Zone 3: Primary Action & Cart / Customizer */}
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2.5 shrink-0">
+            {/* Store Admin Panel button */}
+            {onOpenAdmin && (
+              <button
+                onClick={onOpenAdmin}
+                title="Mağaza & Sipariş Yönetim Paneli"
+                className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-neutral-200 bg-neutral-900 border border-neutral-700 hover:border-amber-500/60 rounded-md hover:bg-neutral-800 hover:text-amber-400 transition-colors cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                <span className="hidden md:inline">Yönetim Paneli</span>
+              </button>
+            )}
+
             {/* Visual Site Customizer & Code Exporter */}
             <button
               onClick={onOpenCustomizer}
-              title="Site Yönetim & Özelleştirme Sihirbazı"
-              className="flex items-center gap-2 px-3 py-2 text-xs font-medium text-neutral-200 bg-neutral-900 border border-neutral-700 rounded-md hover:bg-neutral-800 hover:text-white transition-colors cursor-pointer whitespace-nowrap shrink-0"
+              title="Site Tasarım & Özelleştirme Sihirbazı"
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-neutral-300 bg-neutral-900 border border-neutral-700 rounded-md hover:bg-neutral-800 hover:text-white transition-colors cursor-pointer whitespace-nowrap shrink-0"
             >
-              <Sliders className="w-3.5 h-3.5 text-amber-400" />
-              <span className="hidden sm:inline">Siteyi Düzenle & İndir</span>
+              <Sliders className="w-3.5 h-3.5 text-neutral-400" />
+              <span className="hidden xl:inline">Tasarım Sihirbazı</span>
             </button>
 
             {/* Shopping Cart button */}

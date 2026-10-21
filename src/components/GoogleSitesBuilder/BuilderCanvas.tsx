@@ -23,6 +23,7 @@ interface BuilderCanvasProps {
   cartCount: number;
   onOpenCart: () => void;
   onOpenCustomizer: () => void;
+  onOpenAdmin?: () => void;
   onSelectProduct: (product: Product) => void;
   onAddToCart: (product: Product, weight: any) => void;
   onNavigateSection: (sectionId: string) => void;
@@ -43,6 +44,7 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
   cartCount,
   onOpenCart,
   onOpenCustomizer,
+  onOpenAdmin,
   onSelectProduct,
   onAddToCart,
   onNavigateSection,
@@ -120,6 +122,7 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
           cartCount={cartCount}
           onOpenCart={onOpenCart}
           onOpenCustomizer={onOpenCustomizer}
+          onOpenAdmin={onOpenAdmin}
           activeSection="hero"
           onNavigate={onNavigateSection}
         />
@@ -161,6 +164,7 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
           config={config}
           onNavigate={onNavigateSection}
           onOpenCustomizer={onOpenCustomizer}
+          onOpenAdmin={onOpenAdmin}
         />
       </div>
     </div>

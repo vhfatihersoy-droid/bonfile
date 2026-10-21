@@ -18,7 +18,7 @@ import {
   Truck,
   Check,
 } from 'lucide-react';
-import { CartItem, SiteConfig, PaymentMethod, CardPaymentData, OrderReceipt } from '../types';
+import { CartItem, SiteConfig, PaymentMethod, CardPaymentData, OrderReceipt, Coupon } from '../types';
 import { MeatVisual } from './MeatVisual';
 import { ThreeDSecureModal } from './Payment/ThreeDSecureModal';
 import { BankTransferInfo } from './Payment/BankTransferInfo';
@@ -31,6 +31,8 @@ interface CartDrawerProps {
   onRemoveItem: (productId: string, weightGrams: number) => void;
   onClearCart: () => void;
   config: SiteConfig;
+  coupons?: Coupon[];
+  onAddOrder?: (order: OrderReceipt) => void;
 }
 
 export const CartDrawer: React.FC<CartDrawerProps> = ({
@@ -41,6 +43,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   onRemoveItem,
   onClearCart,
   config,
+  coupons = [],
+  onAddOrder,
 }) => {
   if (!isOpen) return null;
 
@@ -52,6 +56,11 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const [customerPhone, setCustomerPhone] = useState('');
   const [customerAddress, setCustomerAddress] = useState('');
   const [deliveryMethod, setDeliveryMethod] = useState<'same-day' | 'termobox-cargo'>('same-day');
+
+  // Coupon state
+  const [couponInput, setCouponInput] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<Coupon | null>(null);
+  const [couponError, setCouponError] = useState('');
 
   // Payment Selection
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('credit_card');
@@ -79,10 +88,41 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
     return acc + itemPrice * item.quantity;
   }, 0);
 
+  // Calculate discount
+  let discountAmount = 0;
+  if (appliedCoupon) {
+    if (appliedCoupon.discountPercent) {
+      discountAmount = Math.round((subtotal * appliedCoupon.discountPercent) / 100);
+    } else if (appliedCoupon.discountAmount) {
+      discountAmount = appliedCoupon.discountAmount;
+    }
+  }
+
   const shippingCost = subtotal >= config.freeShippingThreshold || subtotal === 0 ? 0 : 95;
-  const grandTotal = subtotal + shippingCost;
+  const grandTotal = Math.max(0, subtotal - discountAmount + shippingCost);
   const remainingForFreeShipping = Math.max(0, config.freeShippingThreshold - subtotal);
   const freeShippingProgress = Math.min(100, Math.round((subtotal / config.freeShippingThreshold) * 100));
+
+  const handleApplyCoupon = (e: React.FormEvent) => {
+    e.preventDefault();
+    setCouponError('');
+    const code = couponInput.trim().toUpperCase();
+    if (!code) return;
+
+    const found = coupons.find((c) => c.code.toUpperCase() === code && c.isActive);
+    if (!found) {
+      setCouponError('Geçersiz veya süresi dolmuş kupon kodu.');
+      return;
+    }
+
+    if (found.minSpend && subtotal < found.minSpend) {
+      setCouponError(`Bu kupon en az ${found.minSpend.toLocaleString('tr-TR')} ₺ sepet tutarında geçerlidir.`);
+      return;
+    }
+
+    setAppliedCoupon(found);
+    setCouponError('');
+  };
 
   // Auto-detect card brand
   const getCardBrand = (num: string) => {
@@ -151,7 +191,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   const finalizeOrder = (paymentStatus: OrderReceipt['paymentStatus']) => {
     const randomNum = Math.floor(100000 + Math.random() * 900000);
     const newReceipt: OrderReceipt = {
-      orderId: `BON-${randomNum}`,
+      orderId: `EFC-${randomNum}`,
       createdAt: new Date().toLocaleDateString('tr-TR', {
         day: 'numeric',
         month: 'long',
@@ -161,6 +201,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       }),
       paymentMethod,
       paymentStatus,
+      orderStatus: 'preparing',
       customerName,
       customerPhone,
       customerAddress,
@@ -168,11 +209,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
       items: [...items],
       subtotal,
       shippingCost,
+      discountAmount,
+      couponCode: appliedCoupon?.code,
       grandTotal,
       installment: cardData.installment,
     };
 
     setOrderReceipt(newReceipt);
+    if (onAddOrder) {
+      onAddOrder(newReceipt);
+    }
     setIs3DSecureOpen(false);
     setStep('success');
     onClearCart();
@@ -824,17 +870,63 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             {/* Cart step footer */}
             {step === 'cart' && items.length > 0 && (
               <div className="p-4 sm:p-5 border-t border-neutral-800 bg-neutral-950/80 space-y-3">
+                {/* Coupon Code Input */}
+                <form onSubmit={handleApplyCoupon} className="space-y-1">
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="İndirim Kuponu (örn: EFECIOGLU10)"
+                      value={couponInput}
+                      onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
+                      className="flex-1 px-3 py-1.5 bg-neutral-900 border border-neutral-700 rounded text-xs text-white uppercase placeholder-neutral-500 focus:outline-none focus:border-amber-400 font-mono font-medium"
+                    />
+                    <button
+                      type="submit"
+                      className="px-3 py-1.5 bg-neutral-800 hover:bg-neutral-700 text-white text-xs font-semibold rounded border border-neutral-700 cursor-pointer transition-colors"
+                    >
+                      Uygula
+                    </button>
+                  </div>
+                  {couponError && (
+                    <p className="text-[10px] text-red-400">{couponError}</p>
+                  )}
+                  {appliedCoupon && (
+                    <div className="flex items-center justify-between text-[11px] text-emerald-400 bg-emerald-950/40 px-2 py-1 rounded border border-emerald-800/40">
+                      <span>✓ {appliedCoupon.code} kuponu uygulandı (-{discountAmount} TL)</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAppliedCoupon(null);
+                          setCouponInput('');
+                        }}
+                        className="text-neutral-400 hover:text-white ml-2 text-[10px] cursor-pointer"
+                      >
+                        Kaldır
+                      </button>
+                    </div>
+                  )}
+                </form>
+
                 <div className="space-y-1.5 text-xs">
                   <div className="flex justify-between text-neutral-400">
                     <span>Ara Toplam:</span>
                     <span className="font-mono text-white tabular-nums">{subtotal.toLocaleString('tr-TR')} TL</span>
                   </div>
+
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-emerald-400 font-semibold">
+                      <span>Kupon İndirimi:</span>
+                      <span className="font-mono tabular-nums">-{discountAmount.toLocaleString('tr-TR')} TL</span>
+                    </div>
+                  )}
+
                   <div className="flex justify-between text-neutral-400">
                     <span>Soğuk Zincir Frigorifik Kargo:</span>
                     <span className="font-mono text-white tabular-nums">
                       {shippingCost === 0 ? <span className="text-emerald-400 font-semibold">ÜCRETSİZ</span> : `${shippingCost} TL`}
                     </span>
                   </div>
+
                   <div className="flex justify-between text-sm font-bold text-white border-t border-neutral-800 pt-2">
                     <span>Genel Toplam:</span>
                     <span className="font-mono text-amber-400 text-base tabular-nums">

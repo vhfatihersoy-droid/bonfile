@@ -6,9 +6,10 @@ interface FooterProps {
   config: SiteConfig;
   onNavigate: (sectionId: string) => void;
   onOpenCustomizer: () => void;
+  onOpenAdmin?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ config, onNavigate, onOpenCustomizer }) => {
+export const Footer: React.FC<FooterProps> = ({ config, onNavigate, onOpenCustomizer, onOpenAdmin }) => {
   return (
     <footer id="iletisim" className="bg-neutral-950 text-neutral-400 border-t border-neutral-800 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-12">
@@ -58,8 +59,16 @@ export const Footer: React.FC<FooterProps> = ({ config, onNavigate, onOpenCustom
                   Horeca & Kurumsal Tedarik
                 </button>
               </li>
+              {onOpenAdmin && (
+                <li>
+                  <button onClick={onOpenAdmin} className="text-amber-400 hover:text-amber-300 transition-colors cursor-pointer font-bold flex items-center gap-1.5">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    <span>Yönetim Paneli (Kasap Girişi)</span>
+                  </button>
+                </li>
+              )}
               <li>
-                <button onClick={onOpenCustomizer} className="text-amber-400 hover:text-amber-300 transition-colors cursor-pointer font-semibold">
+                <button onClick={onOpenCustomizer} className="text-neutral-400 hover:text-white transition-colors cursor-pointer">
                   Siteyi Özelleştir & İndir
                 </button>
               </li>

@@ -3,10 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { initialSiteConfig, categories, products as initialProducts } from './data/mockData';
 import { initialPages, defaultThemes } from './data/builderData';
-import { Product, CartItem, SiteConfig } from './types';
+import { Product, CartItem, SiteConfig, OrderReceipt, Coupon } from './types';
+import {
+  getStoredOrders,
+  saveStoredOrders,
+  getStoredProducts,
+  saveStoredProducts,
+  getStoredCoupons,
+  saveStoredCoupons,
+} from './data/orderStore';
 import { DeviceMode, ViewMode, SidebarTab, SitePage, SiteSection, GoogleSitesTheme, SectionType } from './types/siteBuilder';
 import { TopToolbar } from './components/GoogleSitesBuilder/TopToolbar';
 import { RightSidebar } from './components/GoogleSitesBuilder/RightSidebar';
@@ -15,18 +23,45 @@ import { PublishModal } from './components/GoogleSitesBuilder/PublishModal';
 import { ProductDetailModal } from './components/ProductDetailModal';
 import { CartDrawer } from './components/CartDrawer';
 import { SiteCustomizerModal } from './components/SiteCustomizerModal';
-import { Sliders, MessageCircle, Code2, Globe } from 'lucide-react';
+import { AdminDashboard } from './components/AdminDashboard';
+import { Sliders, MessageCircle, Code2, Globe, ShieldCheck } from 'lucide-react';
 
 export default function App() {
   // Site configuration & products
   const [config, setConfig] = useState<SiteConfig>(initialSiteConfig);
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<Product[]>(() => getStoredProducts());
+  const [orders, setOrders] = useState<OrderReceipt[]>(() => getStoredOrders());
+  const [coupons, setCoupons] = useState<Coupon[]>(() => getStoredCoupons());
+
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCustomizerOpen, setIsCustomizerOpen] = useState(false);
+  const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isPublishOpen, setIsPublishOpen] = useState(false);
   const [isPublished, setIsPublished] = useState(true);
+
+  // Sync state changes with localStorage
+  const handleUpdateProducts = (updatedProducts: Product[]) => {
+    setProducts(updatedProducts);
+    saveStoredProducts(updatedProducts);
+  };
+
+  const handleUpdateOrders = (updatedOrders: OrderReceipt[]) => {
+    setOrders(updatedOrders);
+    saveStoredOrders(updatedOrders);
+  };
+
+  const handleUpdateCoupons = (updatedCoupons: Coupon[]) => {
+    setCoupons(updatedCoupons);
+    saveStoredCoupons(updatedCoupons);
+  };
+
+  const handleAddNewOrder = (newOrder: OrderReceipt) => {
+    const next = [newOrder, ...orders];
+    setOrders(next);
+    saveStoredOrders(next);
+  };
 
   // Google Sites Builder state
   const [pages, setPages] = useState<SitePage[]>(initialPages);
@@ -308,6 +343,7 @@ export default function App() {
           cartCount={totalCartCount}
           onOpenCart={() => setIsCartOpen(true)}
           onOpenCustomizer={() => setIsCustomizerOpen(true)}
+          onOpenAdmin={() => setIsAdminOpen(true)}
           onSelectProduct={(prod) => setSelectedProduct(prod)}
           onAddToCart={handleAddToCart}
           onNavigateSection={handleNavigateSection}
@@ -350,6 +386,22 @@ export default function App() {
         onRemoveItem={handleRemoveItem}
         onClearCart={() => setCartItems([])}
         config={config}
+        coupons={coupons}
+        onAddOrder={handleAddNewOrder}
+      />
+
+      {/* Store & Butcher Admin Management Dashboard */}
+      <AdminDashboard
+        isOpen={isAdminOpen}
+        onClose={() => setIsAdminOpen(false)}
+        products={products}
+        onUpdateProducts={handleUpdateProducts}
+        orders={orders}
+        onUpdateOrders={handleUpdateOrders}
+        coupons={coupons}
+        onUpdateCoupons={handleUpdateCoupons}
+        config={config}
+        onUpdateConfig={setConfig}
       />
 
       <SiteCustomizerModal
@@ -357,10 +409,10 @@ export default function App() {
         onClose={() => setIsCustomizerOpen(false)}
         config={config}
         onUpdateConfig={setConfig}
-        onAddCustomProduct={(p) => setProducts([p, ...products])}
+        onAddCustomProduct={(p) => handleUpdateProducts([p, ...products])}
         onResetDefaults={() => {
           setConfig(initialSiteConfig);
-          setProducts(initialProducts);
+          handleUpdateProducts(initialProducts);
           setPages(initialPages);
         }}
       />
@@ -378,8 +430,20 @@ export default function App() {
           setIsCustomizerOpen(true);
         }}
       />
+
       {/* Floating Action Buttons */}
       <div className="fixed bottom-5 right-5 z-40 flex flex-col gap-2.5">
+        {/* Admin Dashboard Floating Shortcut */}
+        <button
+          onClick={() => setIsAdminOpen(true)}
+          title="Efecioğlu Et Mağaza & Sipariş Yönetim Paneli"
+          className="flex items-center gap-2 px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-amber-400 border border-amber-500/50 rounded-full shadow-2xl text-xs font-bold cursor-pointer transition-transform hover:scale-105"
+        >
+          <ShieldCheck className="w-4 h-4 text-amber-400" />
+          <span>Yönetim Paneli</span>
+        </button>
+
+        {/* WhatsApp Customer Order */}
         <a
           href={`https://wa.me/${config.whatsapp.replace(/[^0-9]/g, '')}`}
           target="_blank"
