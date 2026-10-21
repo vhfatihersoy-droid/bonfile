@@ -52,6 +52,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
               slug={product.slug}
               name={product.name}
               category={product.category}
+              imageUrl={product.imageUrl}
               className="w-full h-full object-cover"
             />
             {product.badge && (
@@ -98,7 +99,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <div className="p-4 bg-amber-950/20 border border-amber-900/40 rounded-lg text-xs space-y-1">
             <div className="flex items-center gap-2 text-amber-400 font-bold">
               <Flame className="w-4 h-4 text-amber-400" />
-              <span>Bonfilet Şefinin Pişirme Sırrı</span>
+              <span>Efecioğlu Şefinin Pişirme Sırrı</span>
             </div>
             <p className="text-neutral-300 leading-relaxed pl-6">
               {product.chefAdvice}

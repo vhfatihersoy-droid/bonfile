@@ -1,6 +1,6 @@
 {
-  "name": "Bonfilet - Et & Et Ürünleri",
-  "description": "1905'ten beri et sektöründe öncü: Taze dana ve kuzu etleri, steak kesimleri, köfte, döner ve şarküteri ürünleri ile Horeca kurumsal tedarik platformu.",
+  "name": "Efecioğlu Et - Gurme Kasap & Taze Et",
+  "description": "Doğal besi yerli dana ve kuzu etleri, dry-aged steak kesimleri, katkısız kasap köfte, sucuk ve şarküteri ürünleri. Frigorifik soğuk zincir güvencesiyle taze teslimat.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

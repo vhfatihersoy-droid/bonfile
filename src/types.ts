@@ -35,6 +35,7 @@ export interface Product {
   };
   chefAdvice: string;
   accentColor: string;
+  imageUrl?: string;
 }
 
 export interface CartItem {

@@ -138,7 +138,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
               </div>
             </div>
 
-            {/* Bonfilet / E-Ticaret Özel Blokları */}
+            {/* Efecioğlu Et / E-Ticaret Özel Blokları */}
             <div>
               <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block mb-2">
                 Hazır Et & E-Ticaret Blokları
@@ -152,7 +152,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
                     <Sparkles className="w-4 h-4 text-amber-400" />
                     <div>
                       <span className="text-xs font-semibold text-white block">Karşılama / Hero Bloğu</span>
-                      <span className="text-[10px] text-neutral-400">1905 mirası ve manşet vitrini</span>
+                      <span className="text-[10px] text-neutral-400">Marka mirası ve manşet vitrini</span>
                     </div>
                   </div>
                   <Plus className="w-4 h-4 text-neutral-500" />

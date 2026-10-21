@@ -90,43 +90,17 @@ export const Hero: React.FC<HeroProps> = ({
               </div>
 
               {/* Steak presentation visual */}
-              <div className="relative rounded-lg overflow-hidden border border-neutral-800 bg-black/40">
-                <svg viewBox="0 0 400 240" className="w-full h-52 object-cover">
-                  <defs>
-                    <radialGradient id="charcoalGrad" cx="50%" cy="50%" r="60%">
-                      <stop offset="0%" stopColor="#27272A" />
-                      <stop offset="100%" stopColor="#09090B" />
-                    </radialGradient>
-                  </defs>
-                  <rect width="400" height="240" fill="url(#charcoalGrad)" />
-                  {/* Grill grid lines */}
-                  <g stroke="#3F3F46" strokeWidth="1.5" opacity="0.4">
-                    <line x1="40" y1="20" x2="360" y2="220" />
-                    <line x1="80" y1="10" x2="380" y2="180" />
-                    <line x1="20" y1="70" x2="320" y2="230" />
-                    <line x1="360" y1="20" x2="40" y2="220" />
-                    <line x1="380" y1="70" x2="80" y2="230" />
-                  </g>
-                  {/* Sizzling pan & steak */}
-                  <ellipse cx="200" cy="120" rx="130" ry="75" fill="#18181B" stroke="#52525B" strokeWidth="4" />
-                  <g transform="translate(115, 65)">
-                    <path
-                      d="M30 25 C60 5, 140 10, 155 40 C170 70, 160 105, 130 115 C90 125, 45 115, 20 95 C5 75, 10 45, 30 25 Z"
-                      fill="#7F1D1D"
-                      stroke="#991B1B"
-                      strokeWidth="2"
-                    />
-                    {/* Marbling */}
-                    <path d="M50 35 Q85 45 115 35 Q135 45 145 65" stroke="#FEE2E2" strokeWidth="2.5" fill="none" opacity="0.75" />
-                    <path d="M45 65 Q80 75 110 65 Q130 75 140 90" stroke="#FEE2E2" strokeWidth="2.5" fill="none" opacity="0.7" />
-                    {/* Butter & Rosemary */}
-                    <circle cx="85" cy="55" r="10" fill="#FDE68A" opacity="0.9" />
-                    <path d="M80 80 Q105 65 130 75" stroke="#15803D" strokeWidth="3" strokeLinecap="round" fill="none" />
-                  </g>
-                </svg>
+              <div className="relative rounded-lg overflow-hidden border border-neutral-800 bg-neutral-900 aspect-[16/10]">
+                <img
+                  src="https://images.unsplash.com/photo-1544025162-d76694265947?w=1000&auto=format&fit=crop&q=80"
+                  alt="Efecioğlu Dry-Aged Dallas Steak"
+                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
                 {/* Floating pill badge */}
                 <div className="absolute bottom-3 left-3 bg-neutral-950/90 backdrop-blur border border-neutral-700 rounded px-2.5 py-1 text-[11px] text-neutral-300">
-                  <span className="text-amber-400 font-semibold">%100 Yerli Besi</span> · Balıkesir & Trakya Meraları
+                  <span className="text-amber-400 font-semibold">%100 Yerli Doğal Besi</span> · Balıkesir & Trakya Efecioğlu Çiftliği
                 </div>
               </div>
 
@@ -153,10 +127,10 @@ export const Hero: React.FC<HeroProps> = ({
         <div className="mt-16 pt-10 border-t border-neutral-800/80 grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
           <div>
             <span className="text-2xl sm:text-3xl font-black text-amber-400 block tracking-tight font-mono tabular-nums">
-              1905
+              {config.establishedYear || '1984'}
             </span>
-            <h4 className="text-sm font-semibold text-white mt-1">120 Yıllık Tecrübe</h4>
-            <p className="text-xs text-neutral-400 mt-0.5">Dört kuşaktır aktarılan geleneksel Türk kasaplık mirası</p>
+            <h4 className="text-sm font-semibold text-white mt-1">40 Yılı Aşkın Tecrübe</h4>
+            <p className="text-xs text-neutral-400 mt-0.5">Yıllardır süregelen doğal besi ve geleneksel kasaplık mirası</p>
           </div>
 
           <div>

@@ -17,19 +17,19 @@ export const AboutFacility: React.FC<AboutFacilityProps> = ({ config }) => {
             <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-amber-400 uppercase">
               <span>Kurumsal Miras</span>
               <span aria-hidden="true" className="text-neutral-600">·</span>
-              <span>1905'ten Günümüze</span>
+              <span>{config.establishedYear}'ten Günümüze</span>
             </div>
 
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white leading-tight">
-              120 Yıllık Et Ustalığı & Güvenilir Üretim Kültürü
+              40 Yılı Aşkın Et Ustalığı & Doğal Besi Kültürü
             </h2>
 
             <p className="text-sm text-neutral-300 leading-relaxed">
-              1905 yılında temelleri atılan {config.brandName}, Osmanlı’dan Cumhuriyet’e uzanan köklü kasaplık zanaatını modern gıda mühendisliğiyle buluşturmuştur. Türkiye’de AB normlarında et üretim tesisini kuran ilk markalardan biri olarak, geleneksel lezzeti en üst hijyen kriterleriyle sofralarınıza taşımaktayız.
+              {config.establishedYear} yılında temelleri atılan {config.brandName}, geleneksel kasaplık zanaatını modern gıda mühendisliği ve hayvan refahı standartlarıyla buluşturmuştur. Türkiye’de AB normlarında modern et işleme tesisine sahip öncü kuruluşlardan biri olarak, sofralarınıza gerçek et lezzetini en yüksek hijyen kriterleriyle ulaştırmaktayız.
             </p>
 
             <p className="text-sm text-neutral-400 leading-relaxed">
-              Hayvan refahına uygun, veteriner hekim denetimindeki %100 yerli besilerden elde edilen etlerimiz; karkas seçiminden özel dinlendirme odalarına, porsiyonlamadan el değmeden vakum paketlemeye kadar her adımda titizlikle izlenir.
+              Balıkesir ve Trakya yaylalarındaki doğal çiftliklerimizde serbest otlayan yerli besilerimiz; veteriner hekim gözetiminde, İslami usullere tam uygun helal kesim ve modern soğuk hava odalarında titizlikle işlenir.
             </p>
 
             <div className="space-y-3 pt-2">

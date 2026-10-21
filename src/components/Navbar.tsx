@@ -23,7 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   const navLinks = [
     { id: 'urunler', label: 'Ürünlerimiz' },
-    { id: 'kurumsal', label: '1905 Mirası' },
+    { id: 'kurumsal', label: `${config.establishedYear || '1984'} Mirası` },
     { id: 'pisirme-rehberi', label: 'Şefin Rehberi' },
     { id: 'horeca', label: 'Ev Dışı Tüketim' },
     { id: 'iletisim', label: 'İletişim' },
@@ -39,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Quiet top announcement strip */}
       <div className="bg-neutral-950 text-neutral-400 text-xs py-1.5 px-4 border-b border-neutral-800 text-center font-medium">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-3">
-          <span className="text-amber-400 font-semibold">1905'TEN BERİ</span>
+          <span className="text-amber-400 font-semibold">{config.establishedYear || '1984'}'TEN BERİ</span>
           <span className="text-neutral-600">·</span>
           <span>İstanbul İçi Aynı Gün Frigorifik (+4°C) Soğuk Zincir Teslimat</span>
           <span className="hidden md:inline text-neutral-600">·</span>
@@ -55,8 +55,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             onClick={() => handleLinkClick('hero')}
             className="text-left group flex items-center gap-2 cursor-pointer shrink-0 focus-visible:outline-none"
           >
-            <div className="w-8 h-8 rounded-sm bg-red-700 flex items-center justify-center text-white font-black text-sm tracking-tighter">
-              1905
+            <div className="w-8 h-8 rounded-sm bg-red-700 flex items-center justify-center text-white font-black text-xs tracking-tighter">
+              {config.establishedYear || '1984'}
             </div>
             <div className="flex flex-col">
               <span className="text-xl sm:text-2xl font-black tracking-wider text-white whitespace-nowrap group-hover:text-amber-400 transition-colors">

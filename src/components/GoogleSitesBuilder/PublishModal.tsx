@@ -20,7 +20,7 @@ export const PublishModal: React.FC<PublishModalProps> = ({
   if (!isOpen) return null;
 
   const [customWebAddress, setCustomWebAddress] = useState(
-    config.brandName.toLowerCase().replace(/[^a-z0-9]/g, '-') || 'bonfilet-1905'
+    config.brandName.toLowerCase().replace(/[^a-z0-9]/g, '-') || 'efecioglu-et'
   );
   const [copiedUrl, setCopiedUrl] = useState(false);
   const [published, setPublished] = useState(false);

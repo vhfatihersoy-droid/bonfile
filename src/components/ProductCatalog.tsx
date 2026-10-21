@@ -140,6 +140,7 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
                         slug={product.slug}
                         name={product.name}
                         category={product.category}
+                        imageUrl={product.imageUrl}
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       />
 

@@ -302,6 +302,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                                   slug={item.product.slug}
                                   name={item.product.name}
                                   category={item.product.category}
+                                  imageUrl={item.product.imageUrl}
                                   className="w-full h-full object-cover"
                                 />
                               </div>

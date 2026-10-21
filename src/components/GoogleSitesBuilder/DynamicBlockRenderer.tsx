@@ -17,7 +17,7 @@ export const DynamicBlockRenderer: React.FC<DynamicBlockRendererProps> = ({ sect
             {section.title}
           </h3>
           <p className="text-sm sm:text-base text-neutral-300 leading-relaxed max-w-2xl mx-auto">
-            {section.subtitle || section.content || '1905 yılından bu yana et ve et ürünleri sektöründe kalite, hijyen ve lezzeti bir arada sunmanın gururunu yaşıyoruz.'}
+            {section.subtitle || section.content || '1984 yılından bu yana et ve et ürünleri sektöründe kalite, hijyen ve lezzeti bir arada sunmanın gururunu yaşıyoruz.'}
           </p>
         </div>
       );

@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({ config, onNavigate, onOpenCustom
             </div>
 
             <p className="text-neutral-400 leading-relaxed max-w-sm">
-              1905 yılından bugüne Türk kasaplık kültürünün öncüsü. AB standartlarındaki Beylikdüzü entegre tesisinde, %100 yerli besiden çiftlikten sofraya soğuk zincir güvencesiyle et ve et ürünleri üretimi.
+              {config.establishedYear || '1984'} yılından bugüne Türk kasaplık kültürünün öncüsü. AB standartlarındaki tesisimizde, %100 yerli besiden çiftlikten sofraya soğuk zincir güvencesiyle et ve et ürünleri üretimi.
             </p>
 
             <div className="pt-2 flex items-center gap-3 text-neutral-300">
@@ -45,7 +45,7 @@ export const Footer: React.FC<FooterProps> = ({ config, onNavigate, onOpenCustom
               </li>
               <li>
                 <button onClick={() => onNavigate('kurumsal')} className="hover:text-white transition-colors cursor-pointer">
-                  1905 Kurumsal Mirası
+                  {config.establishedYear || '1984'} Kurumsal Mirası
                 </button>
               </li>
               <li>

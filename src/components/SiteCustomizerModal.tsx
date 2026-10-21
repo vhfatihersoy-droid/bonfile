@@ -257,7 +257,7 @@ export const SiteCustomizerModal: React.FC<SiteCustomizerModalProps> = ({
                     type="text"
                     value={config.establishedYear}
                     onChange={(e) => handleConfigChange('establishedYear', e.target.value)}
-                    placeholder="1905"
+                    placeholder="1984"
                     className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded text-white focus:outline-none focus:border-amber-400 font-mono"
                   />
                 </div>
@@ -270,7 +270,7 @@ export const SiteCustomizerModal: React.FC<SiteCustomizerModalProps> = ({
                     type="text"
                     value={config.tagline}
                     onChange={(e) => handleConfigChange('tagline', e.target.value)}
-                    placeholder="1905'ten Bugüne Değişmeyen Ustalık ve Kalite"
+                    placeholder="1984'ten Bugüne Değişmeyen Ustalık ve Kalite"
                     className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded text-white focus:outline-none focus:border-amber-400"
                   />
                 </div>
@@ -309,7 +309,7 @@ export const SiteCustomizerModal: React.FC<SiteCustomizerModalProps> = ({
                     type="email"
                     value={config.email}
                     onChange={(e) => handleConfigChange('email', e.target.value)}
-                    placeholder="iletisim@bonfilet.com.tr"
+                    placeholder="siparis@efeciogluet.com.tr"
                     className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded text-white focus:outline-none focus:border-amber-400"
                   />
                 </div>
@@ -347,7 +347,7 @@ export const SiteCustomizerModal: React.FC<SiteCustomizerModalProps> = ({
                   className="flex items-center gap-1.5 px-3 py-2 bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 rounded text-neutral-300 cursor-pointer"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
-                  <span>Orijinal Bonfilet Bilgilerine Sıfırla</span>
+                  <span>Orijinal Efecioğlu Et Bilgilerine Sıfırla</span>
                 </button>
 
                 <button

@@ -10,13 +10,13 @@ interface BankTransferInfoProps {
 const officialBankAccounts: BankAccount[] = [
   {
     bankName: 'Garanti BBVA',
-    accountHolder: 'Bonfilet Gıda Sanayi ve Ticaret A.Ş.',
+    accountHolder: 'Efecioğlu Et ve Gıda Sanayi Tic. Ltd. Şti.',
     iban: 'TR42 0006 2000 1234 5678 9012 34',
     branch: 'Beylikdüzü Ticari Şubesi (Şube Kodu: 1240)',
   },
   {
     bankName: 'Türkiye İş Bankası',
-    accountHolder: 'Bonfilet Gıda Sanayi ve Ticaret A.Ş.',
+    accountHolder: 'Efecioğlu Et ve Gıda Sanayi Tic. Ltd. Şti.',
     iban: 'TR68 0006 4000 9876 5432 1098 76',
     branch: 'Haramidere Kurumsal Şubesi (Şube Kodu: 1095)',
   },

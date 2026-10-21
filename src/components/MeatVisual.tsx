@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface MeatVisualProps {
   slug: string;
@@ -6,6 +6,7 @@ interface MeatVisualProps {
   category: string;
   className?: string;
   accentColor?: string;
+  imageUrl?: string;
 }
 
 export const MeatVisual: React.FC<MeatVisualProps> = ({
@@ -14,7 +15,9 @@ export const MeatVisual: React.FC<MeatVisualProps> = ({
   category,
   className = 'w-full h-48',
   accentColor = '#B91C1C',
+  imageUrl,
 }) => {
+  const [imgFailed, setImgFailed] = useState(false);
   // Return tailored SVG artwork representing each meat cut with high fidelity
   const renderVisual = () => {
     switch (slug) {
@@ -198,6 +201,7 @@ export const MeatVisual: React.FC<MeatVisualProps> = ({
           </svg>
         );
 
+      case 'efecioglu-kasap-kofte':
       case 'bonfilet-kasap-kofte':
       case 'gurme-smash-burger-koftesi':
         return (
@@ -205,7 +209,7 @@ export const MeatVisual: React.FC<MeatVisualProps> = ({
             <rect width="400" height="250" fill="#18181B" />
             {/* Cast iron skillet ring */}
             <circle cx="200" cy="125" r="95" stroke="#3F3F46" strokeWidth="8" fill="#27272A" />
-            {slug === 'bonfilet-kasap-kofte' ? (
+            {slug.includes('kofte') ? (
               // 4 Traditional elongated meatballs
               <g>
                 {[
@@ -241,7 +245,7 @@ export const MeatVisual: React.FC<MeatVisualProps> = ({
             )}
             <rect x="18" y="18" width="105" height="24" rx="4" fill="#09090B" fillOpacity="0.85" />
             <text x="26" y="34" fill="#F59E0B" fontSize="11" fontWeight="700" fontFamily="sans-serif">
-              {slug === 'bonfilet-kasap-kofte' ? 'KASAP KÖFTE' : 'SMASH BURGER'}
+              {slug.includes('kofte') ? 'KASAP KÖFTE' : 'SMASH BURGER'}
             </text>
           </svg>
         );
@@ -360,7 +364,18 @@ export const MeatVisual: React.FC<MeatVisualProps> = ({
 
   return (
     <div className={`relative overflow-hidden bg-neutral-900 group ${className}`}>
-      {renderVisual()}
+      {imageUrl && !imgFailed ? (
+        <img
+          src={imageUrl}
+          alt={name}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          onError={() => setImgFailed(true)}
+          referrerPolicy="no-referrer"
+          loading="lazy"
+        />
+      ) : (
+        renderVisual()
+      )}
       {/* Subtle vignette gloss */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
     </div>

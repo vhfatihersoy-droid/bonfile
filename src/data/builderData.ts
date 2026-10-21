@@ -40,7 +40,7 @@ export const initialHomeSections: SiteSection[] = [
     id: 'sec-hero',
     type: 'hero',
     title: 'Ustalıkla Dinlendirilmiş, Gerçek Et Lezzeti Sofranızda',
-    subtitle: "1905'ten beri geleneksel Türk kasaplık sanatı ve AB onaylı entegre tesis güvencesiyle.",
+    subtitle: "1984'ten beri geleneksel Türk kasaplık sanatı ve AB onaylı entegre tesis güvencesiyle.",
     bgColor: 'bg-neutral-950',
     isVisible: true,
   },
@@ -55,8 +55,8 @@ export const initialHomeSections: SiteSection[] = [
   {
     id: 'sec-about',
     type: 'about',
-    title: '120 Yıllık Et Ustalığı & Güvenilir Üretim Kültürü',
-    subtitle: "1905'te başlayan serüven, 15.000 m² Beylikdüzü tesisimizde en üst hijyen normlarıyla sürüyor.",
+    title: '40 Yıllık Et Ustalığı & Güvenilir Üretim Kültürü',
+    subtitle: "1984'te başlayan serüven, modern entegre tesisimizde en üst hijyen normlarıyla sürüyor.",
     bgColor: 'bg-neutral-950',
     isVisible: true,
   },
@@ -111,7 +111,7 @@ export const initialPages: SitePage[] = [
       {
         id: 'sec-features-quality',
         type: 'features-grid',
-        title: 'Bonfilet Kalite Güvencesi',
+        title: 'Efecioğlu Et Kalite Güvencesi',
         subtitle: 'Veteriner kontrolü, soğuk zincir lojistiği ve TSE Helal sertifikası.',
         bgColor: 'bg-neutral-900',
         isVisible: true,
@@ -120,15 +120,15 @@ export const initialPages: SitePage[] = [
   },
   {
     id: 'page-heritage',
-    name: '1905 Mirası & Tesis',
+    name: '1984 Mirası & Tesis',
     slug: 'kurumsal',
     isHome: false,
     sections: [
       {
         id: 'sec-about-deep',
         type: 'about',
-        title: '1905’ten Bugüne Et Sektöründe Öncü',
-        subtitle: 'Osmanlı’dan günümüze 4 kuşaklık kasaplık zanaatı ve 15.000 m² entegre tesisimiz.',
+        title: '1984’ten Bugüne Et Sektöründe Öncü',
+        subtitle: 'Geleneksel Türk kasaplık zanaatı ve modern entegre tesisimiz.',
         bgColor: 'bg-neutral-950',
         isVisible: true,
       },
