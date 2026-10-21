@@ -1,0 +1,6 @@
+{
+  "name": "Bonfilet - Et & Et Ürünleri",
+  "description": "1905'ten beri et sektöründe öncü: Taze dana ve kuzu etleri, steak kesimleri, köfte, döner ve şarküteri ürünleri ile Horeca kurumsal tedarik platformu.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
