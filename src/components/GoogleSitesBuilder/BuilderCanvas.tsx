@@ -115,7 +115,7 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
         return <SteakCookingCalculator />;
 
       case 'cold-chain':
-        return <ColdChainMonitor orders={orders || []} />;
+        return <ColdChainMonitor orders={orders} />;
 
       case 'horeca':
         return <HorecaB2B config={config} />;
