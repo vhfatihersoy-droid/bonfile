@@ -67,17 +67,12 @@ export const Footer: React.FC<FooterProps> = ({ config, onNavigate, onOpenCustom
               </li>
               {onOpenAdmin && (
                 <li>
-                  <button onClick={onOpenAdmin} className="text-red-400 hover:text-red-300 transition-colors cursor-pointer font-bold flex items-center gap-1.5">
+                  <button onClick={onOpenAdmin} className="text-stone-500 hover:text-stone-300 transition-colors cursor-pointer text-xs flex items-center gap-1.5">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Yönetim Paneli (Kasap Girişi)</span>
+                    <span>Yönetici Paneli</span>
                   </button>
                 </li>
               )}
-              <li>
-                <button onClick={onOpenCustomizer} className="text-stone-400 hover:text-white transition-colors cursor-pointer">
-                  Siteyi Özelleştir & İndir
-                </button>
-              </li>
             </ul>
           </div>
 
@@ -157,6 +152,17 @@ export const Footer: React.FC<FooterProps> = ({ config, onNavigate, onOpenCustom
             <span className="hover:text-stone-300 cursor-pointer">Mesafeli Satış Sözleşmesi</span>
             <span className="text-stone-700">·</span>
             <span className="hover:text-stone-300 cursor-pointer">Teslimat & İade Şartları</span>
+            {onOpenAdmin && (
+              <>
+                <span className="text-stone-700">·</span>
+                <button
+                  onClick={onOpenAdmin}
+                  className="hover:text-stone-300 transition-colors cursor-pointer text-stone-600 hover:text-stone-400"
+                >
+                  Yönetici Girişi
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>

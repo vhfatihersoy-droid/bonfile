@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { initialSiteConfig, categories, products as initialProducts } from './data/mockData';
 import { initialPages, defaultThemes } from './data/builderData';
-import { Product, CartItem, SiteConfig, OrderReceipt, Coupon, MeatCategory } from './types';
+import { Product, CartItem, SiteConfig, OrderReceipt, Coupon } from './types';
 import {
   getStoredOrders,
   saveStoredOrders,
@@ -40,10 +40,6 @@ export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isPublishOpen, setIsPublishOpen] = useState(false);
   const [isPublished, setIsPublished] = useState(true);
-
-  // E-commerce live search & category filter state
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<MeatCategory>('all');
 
   // Sync state changes with localStorage
   const handleUpdateProducts = (updatedProducts: Product[]) => {
@@ -312,10 +308,6 @@ export default function App() {
   };
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-  const totalCartPrice = cartItems.reduce((acc, item) => {
-    const itemPrice = Math.round(item.product.basePrice * item.selectedWeight.multiplier);
-    return acc + itemPrice * item.quantity;
-  }, 0);
 
   return (
     <div className="h-screen w-screen overflow-hidden flex flex-col bg-stone-100 font-sans selection:bg-red-700 selection:text-white">
@@ -336,24 +328,7 @@ export default function App() {
           onDownloadHtml={handleDownloadHtml}
           isPublished={isPublished}
         />
-      ) : (
-        /* Floating banner in Live Mode to easily return to Google Sites Editor */
-        <div className="bg-white border-b border-stone-200 px-4 py-2 flex items-center justify-between text-xs text-stone-700 z-50 shadow-2xs">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-            <span className="font-bold text-stone-900">Canlı Kasap Mağazası Önizleme Modu</span>
-            <span className="hidden sm:inline text-stone-300">·</span>
-            <span className="hidden sm:inline text-stone-500">Bonfilet tarzı geniş slider, dairesel kategori ikonları ve entegre arama aktif.</span>
-          </div>
-          <button
-            onClick={() => setViewMode('editor')}
-            className="flex items-center gap-1.5 px-3 py-1 bg-stone-900 hover:bg-stone-800 text-white font-bold rounded-md cursor-pointer shadow-2xs"
-          >
-            <Code2 className="w-3.5 h-3.5" />
-            <span>Google Sites Düzenleyici</span>
-          </button>
-        </div>
-      )}
+      ) : null}
 
       {/* Main Workspace Area */}
       <div className="flex-1 flex overflow-hidden relative">
@@ -366,12 +341,7 @@ export default function App() {
           products={products}
           categories={categories}
           cartCount={totalCartCount}
-          cartTotal={totalCartPrice}
           orders={orders}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          selectedCategory={selectedCategory}
-          onSelectCategory={setSelectedCategory}
           onOpenCart={() => setIsCartOpen(true)}
           onOpenCustomizer={() => setIsCustomizerOpen(true)}
           onOpenAdmin={() => setIsAdminOpen(true)}

@@ -63,7 +63,7 @@ export const CookingGuide: React.FC = () => {
   const selectedRecipe = recipes[activeRecipeIndex];
 
   return (
-    <section id="pisirme-rehberi" className="py-16 bg-stone-50/70 text-stone-900 border-b border-stone-200">
+    <section id="pisirme-rehberi" className="py-20 bg-white text-stone-900 border-b border-stone-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto">

@@ -54,7 +54,7 @@ export const HorecaB2B: React.FC<HorecaB2BProps> = ({ config }) => {
   };
 
   return (
-    <section id="horeca" className="py-16 bg-white text-stone-900 border-b border-stone-200">
+    <section id="horeca" className="py-20 bg-stone-50/50 text-stone-900 border-b border-stone-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Section Header */}
         <div className="max-w-3xl">

@@ -9,7 +9,7 @@ interface AboutFacilityProps {
 
 export const AboutFacility: React.FC<AboutFacilityProps> = ({ config }) => {
   return (
-    <section id="kurumsal" className="py-16 bg-white text-stone-900 border-b border-stone-200">
+    <section id="kurumsal" className="py-20 bg-white text-stone-900 border-b border-stone-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Heritage Story */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
