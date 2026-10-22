@@ -54,7 +54,7 @@ export const Hero: React.FC<HeroProps> = ({
                 onClick={onRequestB2BQuote}
                 className="px-6 py-3.5 text-sm font-semibold text-stone-700 bg-stone-50 hover:bg-stone-100 border border-stone-200 rounded-xl transition-colors cursor-pointer"
               >
-                Horeca & Kurumsal Tedarik
+                Entegre Tesis & Mirasımız
               </button>
             </div>
 

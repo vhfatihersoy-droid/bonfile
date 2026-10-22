@@ -11,7 +11,6 @@ import { HorecaB2B } from '../HorecaB2B';
 import { Testimonials } from '../Testimonials';
 import { MeatAnatomyExplorer } from '../MeatAnatomyExplorer';
 import { SteakCookingCalculator } from '../SteakCookingCalculator';
-import { ColdChainMonitor } from '../ColdChainMonitor';
 import { Navbar } from '../Navbar';
 import { Footer } from '../Footer';
 import { Plus } from 'lucide-react';
@@ -80,7 +79,7 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
           <Hero
             config={config}
             onExploreProducts={() => onNavigateSection('urunler')}
-            onRequestB2BQuote={() => onNavigateSection('horeca')}
+            onRequestB2BQuote={() => onNavigateSection('kurumsal')}
           />
         );
 
@@ -113,9 +112,6 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
 
       case 'steak-calculator':
         return <SteakCookingCalculator />;
-
-      case 'cold-chain':
-        return <ColdChainMonitor orders={orders} />;
 
       case 'horeca':
         return <HorecaB2B config={config} />;

@@ -28,9 +28,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     { id: 'urunler', label: 'Taze Et Kataloğu' },
     { id: 'anatomi-rehberi', label: 'Karkas Anatomisi' },
     { id: 'pisirme-hesaplayici', label: 'Mühürleme Asistanı' },
-    { id: 'soguk-zincir', label: 'Soğuk Zincir (+4°C)' },
-    { id: 'horeca', label: 'Horeca & Toptan' },
-    { id: 'kurumsal', label: 'Entegre Tesis' },
+    { id: 'kurumsal', label: 'Entegre Tesis Mirası' },
   ];
 
   const handleLinkClick = (id: string) => {
@@ -125,12 +123,12 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="pt-2 flex flex-col gap-2">
               <button
                 onClick={() => {
-                  onNavigate('horeca');
+                  onNavigate('urunler');
                   setMobileMenuOpen(false);
                 }}
                 className="w-full text-center py-2.5 text-xs font-bold bg-red-700 text-white rounded-md hover:bg-red-800"
               >
-                Kurumsal / Horeca Teklif Al
+                Taze Et Kataloğunu İncele
               </button>
             </div>
           </div>
