@@ -1,6 +1,7 @@
 import React from 'react';
 import { Phone, Mail, MapPin, Clock, ShieldCheck, Heart } from 'lucide-react';
 import { SiteConfig } from '../types';
+import { OzlemceLogo } from './OzlemceLogo';
 
 interface FooterProps {
   config: SiteConfig;
@@ -16,13 +17,8 @@ export const Footer: React.FC<FooterProps> = ({ config, onNavigate, onOpenCustom
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
           {/* Col 1: Brand & Heritage */}
           <div className="lg:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-md bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center text-white font-black text-xs tracking-tighter shadow-sm">
-                {config.establishedYear}
-              </div>
-              <span className="text-xl font-black tracking-wider text-white">
-                {config.brandName}
-              </span>
+            <div className="space-y-2">
+              <OzlemceLogo variant="dark" size="md" />
             </div>
 
             <p className="text-stone-400 leading-relaxed max-w-sm">

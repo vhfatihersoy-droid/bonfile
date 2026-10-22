@@ -112,7 +112,7 @@ export const ThreeDSecureModal: React.FC<ThreeDSecureModalProps> = ({
           <div className="p-3.5 bg-neutral-50 rounded-lg border border-neutral-200 space-y-2">
             <div className="flex justify-between text-neutral-600">
               <span>İşyeri Adı:</span>
-              <span className="font-bold text-neutral-900">Efecioğlu Et ve Gıda San. Tic. Ltd. Şti.</span>
+              <span className="font-bold text-neutral-900">Özlemce Et ve Et Ürünleri Entegre San. Tic. A.Ş.</span>
             </div>
             <div className="flex justify-between text-neutral-600">
               <span>İşlem Tutarı:</span>

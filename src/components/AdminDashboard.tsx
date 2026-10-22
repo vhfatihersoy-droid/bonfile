@@ -213,8 +213,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         category: (productFormData.category as MeatCategory) || 'steak',
         categoryName:
           defaultCategories.find((c) => c.id === productFormData.category)?.name || 'Steakhouse Kesimleri',
-        tagline: productFormData.tagline || 'Özel Efecioğlu Kesimi',
-        description: productFormData.description || 'Efecioğlu çiftliğinde özenle yetiştirilmiş yerli besi.',
+        tagline: productFormData.tagline || 'Özel Özlemce Kesimi',
+        description: productFormData.description || 'Özlemce çiftliğinde özenle yetiştirilmiş yerli besi.',
         basePrice: Number(productFormData.basePrice) || 500,
         unitWeight: productFormData.unitWeight || '500g',
         weights: [
@@ -226,7 +226,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
         fatRatio: productFormData.fatRatio || '%10 - %15',
         cookingMethods: productFormData.cookingMethods || ['Izgara', 'Tava'],
         cookingTimeMinutes: Number(productFormData.cookingTimeMinutes) || 6,
-        origin: productFormData.origin || 'Balıkesir Efecioğlu Besi Çiftliği',
+        origin: productFormData.origin || 'Balıkesir Özlemce Besi Çiftliği',
         inStock: productFormData.inStock ?? true,
         badge: productFormData.badge || 'Yeni',
         imageUrl:
@@ -309,11 +309,11 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
 
     const text = encodeURIComponent(
       `Merhaba Sayın ${order.customerName},\n\n` +
-      `Efecioğlu Et (1984) üzerinden verdiğiniz #${order.orderId} numaralı siparişinizin durumu:\n` +
+      `Özlemce Et (1984) üzerinden verdiğiniz #${order.orderId} numaralı siparişinizin durumu:\n` +
       `📦 Durum: ${statusText}\n\n` +
       `Toplam Tutar: ${order.grandTotal.toLocaleString('tr-TR')} ₺\n` +
       `Teslimat Adresi: ${order.customerAddress}\n\n` +
-      `Bizi tercih ettiğiniz için teşekkür ederiz.\nEfecioğlu Gurme Kasap & Entegre Tesisleri\nTel: 0212 654 34 34`
+      `Bizi tercih ettiğiniz için teşekkür ederiz.\nÖzlemce Gurme Kasap & Entegre Tesisleri\nTel: 0212 654 34 34`
     );
 
     return `https://wa.me/${cleanPhone}?text=${text}`;
@@ -376,7 +376,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               </div>
               <h2 className="text-xl font-bold text-white mb-2">Yönetici Girişi (PIN)</h2>
               <p className="text-xs text-neutral-400 mb-6">
-                Efecioğlu Et mağaza yönetici paneline erişmek için 4 haneli PIN kodunuzu giriniz.
+                Özlemce Et mağaza yönetici paneline erişmek için 4 haneli PIN kodunuzu giriniz.
               </p>
 
               <form onSubmit={handlePinSubmit} className="space-y-4">
@@ -974,7 +974,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                             fatRatio: '%12 - %15',
                             cookingMethods: ['Izgara', 'Tava'],
                             cookingTimeMinutes: 6,
-                            origin: 'Balıkesir Efecioğlu Besi Çiftliği',
+                            origin: 'Balıkesir Özlemce Besi Çiftliği',
                             inStock: true,
                             badge: 'Yeni',
                             imageUrl: 'https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=800&auto=format&fit=crop&q=80',
@@ -1262,7 +1262,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         <p className="leading-relaxed text-neutral-400">
                           Müşteri kredi kartıyla ödeme yaptığında, tutar Sanal POS sağlayıcınızın (PayTR / İyzico) BDDK lisanslı güvenli havuz hesabına geçer. 
                           Ardından sözleşmenizdeki takvime göre (<strong className="text-amber-400">ertesi iş günü</strong> veya haftalık) doğrudan aşağıdaki 
-                          <strong className="text-white"> Efecioğlu Et resmi banka hesabınıza (IBAN)</strong> transfer edilir.
+                          <strong className="text-white"> Özlemce Et resmi banka hesabınıza (IBAN)</strong> transfer edilir.
                         </p>
                       </div>
                     </div>
@@ -1555,7 +1555,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                           <label className="block text-neutral-400 font-semibold mb-1">Hesap Sahibi (Şirket Unvanı)</label>
                           <input
                             type="text"
-                            placeholder="Efecioğlu Et ve Gıda San. Tic. Ltd. Şti."
+                            placeholder="Özlemce Et ve Gıda San. Tic. Ltd. Şti."
                             value={config.paymentSettings?.accountHolder || ''}
                             onChange={(e) =>
                               onUpdateConfig({
@@ -1673,7 +1673,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         </div>
                         <p className="text-neutral-400 text-[11px] leading-relaxed">
                           "Canlı Mod" anahtarını açtığınız andan itibaren müşterilerden çekilen tutarlar otomatik olarak 
-                          <strong> ertesi iş günü veya haftalık periyotlarla</strong> doğrudan kayıtlı Efecioğlu Et banka IBAN hesabınıza geçer.
+                          <strong> ertesi iş günü veya haftalık periyotlarla</strong> doğrudan kayıtlı Özlemce Et banka IBAN hesabınıza geçer.
                         </p>
                       </div>
                     </div>
@@ -1686,7 +1686,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                 <div className="max-w-2xl bg-neutral-950 p-6 rounded-2xl border border-neutral-800 space-y-6 animate-fadeIn">
                   <div>
                     <h3 className="text-base font-bold text-white">Mağaza & İletişim Ayarları</h3>
-                    <p className="text-xs text-neutral-400">Efecioğlu Et kurumsal iletişim ve operasyon bilgileri</p>
+                    <p className="text-xs text-neutral-400">Özlemce Et kurumsal iletişim ve operasyon bilgileri</p>
                   </div>
 
                   <div className="space-y-4 text-xs">
@@ -1790,7 +1790,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   required
                   value={productFormData.name || ''}
                   onChange={(e) => setProductFormData({ ...productFormData, name: e.target.value })}
-                  placeholder="örn: Efecioğlu Dry-Aged Tomahawk Steak"
+                  placeholder="örn: Özlemce Dry-Aged Tomahawk Steak"
                   className="w-full px-3 py-2 bg-neutral-950 border border-neutral-700 rounded-xl text-white focus:outline-none focus:border-red-600"
                 />
               </div>
@@ -2070,7 +2070,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                       : 'Banka Havalesi'}
                   </div>
                   <div className="text-neutral-600 text-[11px] mt-1">
-                    Araç: {selectedOrderReceipt.courierName || 'Efecioğlu Frigorifik Kurye #01'}
+                    Araç: {selectedOrderReceipt.courierName || 'Özlemce Frigorifik Kurye #01'}
                   </div>
                   {selectedOrderReceipt.notes && (
                     <div className="text-[11px] text-neutral-700 mt-1 bg-amber-50 p-1.5 rounded border border-amber-200">
@@ -2143,7 +2143,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                   <p>Gıda güvenliği standardı: ISO 22000 & Helal Kesim Belgeli</p>
                 </div>
                 <div className="text-center">
-                  <div className="font-bold text-neutral-800">Efecioğlu Et Sevkiyat Yetkilisi</div>
+                  <div className="font-bold text-neutral-800">Özlemce Et Sevkiyat Yetkilisi</div>
                   <div className="h-8 border-b border-dashed border-neutral-400 mt-1 w-32" />
                 </div>
               </div>

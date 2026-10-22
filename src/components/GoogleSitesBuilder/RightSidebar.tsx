@@ -138,7 +138,7 @@ export const RightSidebar: React.FC<RightSidebarProps> = ({
               </div>
             </div>
 
-            {/* Efecioğlu Et / E-Ticaret Özel Blokları */}
+            {/* Özlemce Et / E-Ticaret Özel Blokları */}
             <div>
               <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider block mb-2">
                 Hazır Et & E-Ticaret Blokları

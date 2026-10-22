@@ -436,7 +436,7 @@ export default function App() {
         {/* Admin Dashboard Floating Shortcut */}
         <button
           onClick={() => setIsAdminOpen(true)}
-          title="Efecioğlu Et Mağaza & Sipariş Yönetim Paneli"
+          title="Özlemce Et Entegre Tesisi Mağaza & Sipariş Yönetim Paneli"
           className="flex items-center gap-2 px-4 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-amber-400 border border-amber-500/50 rounded-full shadow-2xl text-xs font-bold cursor-pointer transition-transform hover:scale-105"
         >
           <ShieldCheck className="w-4 h-4 text-amber-400" />

@@ -15,13 +15,13 @@ interface BankTransferInfoProps {
 const defaultBankAccounts: BankAccount[] = [
   {
     bankName: 'Garanti BBVA',
-    accountHolder: 'Efecioğlu Et ve Gıda Sanayi Tic. Ltd. Şti.',
+    accountHolder: 'Özlemce Et ve Et Ürünleri Entegre San. Tic. A.Ş.',
     iban: 'TR42 0006 2000 1234 5678 9012 34',
     branch: 'Beylikdüzü Ticari Şubesi (Şube Kodu: 1240)',
   },
   {
     bankName: 'Türkiye İş Bankası',
-    accountHolder: 'Efecioğlu Et ve Gıda Sanayi Tic. Ltd. Şti.',
+    accountHolder: 'Özlemce Et ve Et Ürünleri Entegre San. Tic. A.Ş.',
     iban: 'TR68 0006 4000 9876 5432 1098 76',
     branch: 'Haramidere Kurumsal Şubesi (Şube Kodu: 1095)',
   },
@@ -34,7 +34,7 @@ export const BankTransferInfo: React.FC<BankTransferInfoProps> = ({ orderId, tot
     ? [
         {
           bankName: customAccount.bankName || 'Banka Hesabı',
-          accountHolder: customAccount.accountHolder || 'Efecioğlu Et',
+          accountHolder: customAccount.accountHolder || 'Özlemce Et Entegre Tesisi',
           iban: customAccount.iban,
           branch: 'Ana Şube',
         },

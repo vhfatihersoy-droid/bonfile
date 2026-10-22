@@ -99,7 +99,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
           <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-xs space-y-1">
             <div className="flex items-center gap-2 text-red-800 font-bold">
               <Flame className="w-4 h-4 text-red-700" />
-              <span>Efecioğlu Şefinin Pişirme & Marinasyon Sırrı</span>
+              <span>Özlemce Şefinin Pişirme & Marinasyon Sırrı</span>
             </div>
             <p className="text-stone-700 leading-relaxed pl-6">
               {product.chefAdvice}

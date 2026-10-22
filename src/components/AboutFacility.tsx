@@ -59,7 +59,7 @@ export const AboutFacility: React.FC<AboutFacilityProps> = ({ config }) => {
             <div className="flex items-center justify-between border-b border-stone-200 pb-4">
               <div className="flex items-center gap-2">
                 <Factory className="w-5 h-5 text-red-700" />
-                <h3 className="text-base font-bold text-stone-900">Beylikdüzü Entegre Et Tesisi</h3>
+                <h3 className="text-base font-bold text-stone-900">Özlemce Entegre Et Tesisi</h3>
               </div>
               <span className="text-[11px] text-stone-500 flex items-center gap-1 font-medium">
                 <MapPin className="w-3.5 h-3.5 text-red-600" />

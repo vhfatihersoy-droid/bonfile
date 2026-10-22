@@ -1,6 +1,7 @@
 import React from 'react';
 import { ShoppingBag, Sliders, Menu, X, ShieldCheck } from 'lucide-react';
 import { SiteConfig } from '../types';
+import { OzlemceLogo } from './OzlemceLogo';
 
 interface NavbarProps {
   config: SiteConfig;
@@ -52,22 +53,13 @@ export const Navbar: React.FC<NavbarProps> = ({
       {/* Main Top Bar adhering strictly to 3-zone contract */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 transition-colors shadow-2xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-8">
-          {/* Zone 1: Brand Wordmark */}
+          {/* Zone 1: Official Özlemce Logo */}
           <button
             onClick={() => handleLinkClick('hero')}
-            className="text-left group flex items-center gap-2.5 cursor-pointer shrink-0 focus-visible:outline-none"
+            className="text-left group flex items-center gap-3 cursor-pointer shrink-0 focus-visible:outline-none"
+            aria-label="Özlemce Et Entegre Tesisi Anasayfa"
           >
-            <div className="w-9 h-9 rounded-md bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center text-white font-black text-xs tracking-tighter shadow-sm">
-              {config.establishedYear || '1984'}
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl font-black tracking-wider text-stone-900 whitespace-nowrap group-hover:text-red-700 transition-colors">
-                {config.brandName}
-              </span>
-              <span className="text-[10px] tracking-widest text-red-700 uppercase -mt-0.5 font-bold">
-                Gurme Kasap & Entegre Et Tesisleri
-              </span>
-            </div>
+            <OzlemceLogo size="md" />
           </button>
 
           {/* Zone 2: 4-5 Clean single-line nav links */}

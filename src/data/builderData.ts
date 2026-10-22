@@ -111,7 +111,7 @@ export const initialPages: SitePage[] = [
       {
         id: 'sec-features-quality',
         type: 'features-grid',
-        title: 'Efecioğlu Et Kalite Güvencesi',
+        title: 'Özlemce Et Kalite Güvencesi',
         subtitle: 'Veteriner kontrolü, soğuk zincir lojistiği ve TSE Helal sertifikası.',
         bgColor: 'bg-neutral-900',
         isVisible: true,

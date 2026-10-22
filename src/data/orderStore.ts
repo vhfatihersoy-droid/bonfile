@@ -65,7 +65,7 @@ export const defaultOrders: OrderReceipt[] = [
     grandTotal: 2269,
     installment: 1,
     notes: 'Lütfen bonfileyi 4 eşit lokum dilim olarak vakumlayınız. Kapıda zile basılmadan aransın.',
-    courierName: 'Efecioğlu Frigo Araç #04 (Ahmet Usta)',
+    courierName: 'Özlemce Frigo Araç #04 (Ahmet Usta)',
     courierPhone: '0533 111 22 33',
   },
   {
