@@ -63,46 +63,46 @@ export const CookingGuide: React.FC = () => {
   const selectedRecipe = recipes[activeRecipeIndex];
 
   return (
-    <section id="pisirme-rehberi" className="py-16 bg-neutral-950 text-white border-b border-neutral-800">
+    <section id="pisirme-rehberi" className="py-16 bg-stone-50/70 text-stone-900 border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto">
-          <div className="flex items-center justify-center gap-2 text-xs font-semibold tracking-wider text-amber-400 uppercase">
+          <div className="flex items-center justify-center gap-2 text-xs font-bold tracking-wider text-red-700 uppercase">
             <span>Ustalık Sırları</span>
-            <span aria-hidden="true" className="text-neutral-600">·</span>
+            <span aria-hidden="true" className="text-stone-300">·</span>
             <span>Şefin Mutfağı</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mt-1">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-stone-900 mt-1">
             Steak & Et Pişirme Rehberi
           </h2>
-          <p className="text-sm text-neutral-400 mt-2">
-            İyi bir et doğru pişirildiğinde efsaneleşir. Doğru iç sıcaklık derecelerini ve döküm tavada mühürleme tekniklerini keşfedin.
+          <p className="text-sm text-stone-600 mt-2">
+            İyi bir et doğru marine edilip pişirildiğinde efsaneleşir. Doğru iç sıcaklık derecelerini, kekik ve sızma zeytinyağlı mühürleme tekniklerini keşfedin.
           </p>
         </div>
 
         {/* Part 1: Interactive Steak Doneness Thermometer */}
-        <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 lg:p-8 space-y-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-neutral-800 pb-6">
+        <div className="bg-white border border-stone-200 rounded-2xl p-6 lg:p-8 space-y-8 shadow-xs">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-200 pb-6">
             <div>
-              <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider">
+              <div className="flex items-center gap-2 text-red-700 text-xs font-bold uppercase tracking-wider">
                 <Thermometer className="w-4 h-4" />
                 <span>İç Sıcaklık & Pişme Seviyesi</span>
               </div>
-              <h3 className="text-lg font-bold text-white mt-1">
+              <h3 className="text-lg font-bold text-stone-900 mt-1">
                 İdeal Pişme Derecenizi Seçin
               </h3>
             </div>
 
             {/* Segmented doneness buttons */}
-            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-neutral-950 rounded-lg border border-neutral-800">
+            <div className="flex flex-wrap items-center gap-1.5 p-1 bg-stone-100 rounded-xl border border-stone-200">
               {donenessLevels.map((lvl) => (
                 <button
                   key={lvl.key}
                   onClick={() => setActiveDoneness(lvl)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg transition-colors whitespace-nowrap cursor-pointer ${
                     activeDoneness.key === lvl.key
-                      ? 'bg-red-700 text-white font-bold shadow-sm'
-                      : 'text-neutral-400 hover:text-white'
+                      ? 'bg-red-700 text-white font-bold shadow-xs'
+                      : 'text-stone-600 hover:text-stone-900 hover:bg-stone-200/60'
                   }`}
                 >
                   {lvl.name.split(' ')[0]}
@@ -115,8 +115,8 @@ export const CookingGuide: React.FC = () => {
           {/* Interactive display card */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Visual Cross-Section of Steak */}
-            <div className="lg:col-span-5 bg-neutral-950 rounded-lg border border-neutral-800 p-6 flex flex-col items-center justify-center text-center space-y-4">
-              <div className="relative w-full max-w-xs h-28 rounded-xl overflow-hidden border border-neutral-700 shadow-inner flex flex-col justify-between">
+            <div className="lg:col-span-5 bg-stone-50 rounded-xl border border-stone-200 p-6 flex flex-col items-center justify-center text-center space-y-4">
+              <div className="relative w-full max-w-xs h-28 rounded-xl overflow-hidden border border-stone-300 shadow-inner flex flex-col justify-between">
                 {/* Outer grilled seared crust */}
                 <div className="h-4 bg-[#3E1A0F] border-b border-[#281109]" />
 
@@ -139,8 +139,8 @@ export const CookingGuide: React.FC = () => {
               </div>
 
               <div>
-                <span className="text-xs text-neutral-400">Termometre Hedefi</span>
-                <div className="text-2xl font-black text-amber-400 font-mono tabular-nums">
+                <span className="text-xs text-stone-500 font-medium">Termometre Hedefi</span>
+                <div className="text-2xl font-black text-red-700 font-mono tabular-nums">
                   {activeDoneness.temp}
                 </div>
               </div>
@@ -149,84 +149,84 @@ export const CookingGuide: React.FC = () => {
             {/* Explanation & Chef's Details */}
             <div className="lg:col-span-7 space-y-4">
               <div className="flex items-center gap-2">
-                <h4 className="text-xl font-bold text-white">{activeDoneness.name}</h4>
+                <h4 className="text-xl font-bold text-stone-900">{activeDoneness.name}</h4>
                 {activeDoneness.isChefChoice && (
-                  <span className="text-[11px] font-bold px-2 py-0.5 bg-amber-400 text-neutral-950 rounded">
+                  <span className="text-[11px] font-bold px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 rounded-md">
                     Şefin Tavsiyesi
                   </span>
                 )}
               </div>
 
-              <p className="text-sm text-neutral-300 leading-relaxed">
+              <p className="text-sm text-stone-600 leading-relaxed">
                 {activeDoneness.desc}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
-                <div className="p-3 bg-neutral-950/80 rounded border border-neutral-800">
-                  <span className="text-neutral-400 block text-[11px]">Etin Dokusu (El Testi)</span>
-                  <span className="font-medium text-neutral-200 mt-1 block">{activeDoneness.firmness}</span>
+                <div className="p-3 bg-stone-50 rounded-lg border border-stone-200">
+                  <span className="text-stone-500 block text-[11px]">Etin Dokusu (El Testi)</span>
+                  <span className="font-semibold text-stone-800 mt-1 block">{activeDoneness.firmness}</span>
                 </div>
-                <div className="p-3 bg-neutral-950/80 rounded border border-neutral-800">
-                  <span className="text-neutral-400 block text-[11px]">Tavadan Sonra Dinlendirme</span>
-                  <span className="font-bold text-amber-400 mt-1 block">{activeDoneness.restTime} (Tahta Tahtada)</span>
+                <div className="p-3 bg-stone-50 rounded-lg border border-stone-200">
+                  <span className="text-stone-500 block text-[11px]">Tavadan Sonra Dinlendirme</span>
+                  <span className="font-bold text-red-700 mt-1 block">{activeDoneness.restTime} (Ahşap Tahtada)</span>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Part 2: 4-Step Searing Technique (Clean Editorial Numbering) */}
+        {/* Part 2: 4-Step Searing Technique */}
         <div className="space-y-6">
-          <div className="flex items-center gap-2 text-xs font-semibold tracking-wider text-amber-400 uppercase">
+          <div className="flex items-center gap-2 text-xs font-bold tracking-wider text-red-700 uppercase">
             <span>Altın Kurallar</span>
-            <span aria-hidden="true" className="text-neutral-600">·</span>
+            <span aria-hidden="true" className="text-stone-300">·</span>
             <span>Mühürleme Sanatı</span>
           </div>
-          <h3 className="text-xl font-bold text-white">
+          <h3 className="text-xl font-bold text-stone-900">
             Döküm Tavada Kusursuz Mühürleme Tekniği
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-5 bg-neutral-900 border border-neutral-800 rounded-lg space-y-2">
-              <span className="text-sm font-bold text-amber-400 block">01. Oda Sıcaklığı</span>
-              <h5 className="text-sm font-semibold text-white">Eti Buzdolabından Erken Çıkarın</h5>
-              <p className="text-xs text-neutral-400 leading-relaxed">
+            <div className="p-5 bg-white border border-stone-200 rounded-xl space-y-2 shadow-2xs">
+              <span className="text-sm font-black text-red-700 block">01. Oda Sıcaklığı</span>
+              <h5 className="text-sm font-bold text-stone-900">Eti Buzdolabından Erken Çıkarın</h5>
+              <p className="text-xs text-stone-500 leading-relaxed">
                 Eti pişirmeden 30-40 dakika önce buzdolabından çıkarın. Soğuk et tavaya girdiğinde sıcaklığı düşürür ve mühürlenmek yerine suyunu salıp haşlanır.
               </p>
             </div>
 
-            <div className="p-5 bg-neutral-900 border border-neutral-800 rounded-lg space-y-2">
-              <span className="text-sm font-bold text-amber-400 block">02. Yüzey Kurulama</span>
-              <h5 className="text-sm font-semibold text-white">Havlu Kağıtla Nemi Alın</h5>
-              <p className="text-xs text-neutral-400 leading-relaxed">
-                Islak yüzey Maillard (karamelizasyon) reaksiyonunu engeller. Eti iyice kurulayın, az zeytinyağı ile ovup sadece iri deniz tuzu ve tane karabiber ekleyin.
+            <div className="p-5 bg-white border border-stone-200 rounded-xl space-y-2 shadow-2xs">
+              <span className="text-sm font-black text-red-700 block">02. Yüzey Kurulama & Yağlama</span>
+              <h5 className="text-sm font-bold text-stone-900">Zeytinyağı ve Kaya Tuzu</h5>
+              <p className="text-xs text-stone-500 leading-relaxed">
+                Islak yüzey Maillard reaksiyonunu engeller. Eti iyice kurulayın, soğuk sıkım sızma zeytinyağı ile ovup sadece iri deniz tuzu, taze kekik ve tane karabiber ekleyin.
               </p>
             </div>
 
-            <div className="p-5 bg-neutral-900 border border-neutral-800 rounded-lg space-y-2">
-              <span className="text-sm font-bold text-amber-400 block">03. Arrose Tekniği</span>
-              <h5 className="text-sm font-semibold text-white">Tereyağı & Taze Biberiye</h5>
-              <p className="text-xs text-neutral-400 leading-relaxed">
-                Eti çevirdikten sonra tavaya 1 kaşık tereyağı, ezilmiş sarımsak ve biberiye atın. Köpüren tereyağını bir kaşıkla sürekli etin üzerine dökerek pişirin.
+            <div className="p-5 bg-white border border-stone-200 rounded-xl space-y-2 shadow-2xs">
+              <span className="text-sm font-black text-red-700 block">03. Arrose & Kekik Banyosu</span>
+              <h5 className="text-sm font-bold text-stone-900">Tereyağı & Taze Dağ Kekiği</h5>
+              <p className="text-xs text-stone-500 leading-relaxed">
+                Eti çevirdikten sonra tavaya 1 kaşık tereyağı, ezilmiş sarımsak ve taze kekik dalı atın. Köpüren tereyağını bir kaşıkla sürekli etin üzerine dökerek pişirin.
               </p>
             </div>
 
-            <div className="p-5 bg-neutral-900 border border-neutral-800 rounded-lg space-y-2">
-              <span className="text-sm font-bold text-amber-400 block">04. Dinlendirme</span>
-              <h5 className="text-sm font-semibold text-white">Lifleri Gevşetin</h5>
-              <p className="text-xs text-neutral-400 leading-relaxed">
-                Tavadan alır almaz eti kesmeyin! Tahta tahtada 4-5 dakika bekletin. Böylece merkezdeki et suyu liflere geri dağılır ve et kesildiğinde suyunu tahtaya akıtmaz.
+            <div className="p-5 bg-white border border-stone-200 rounded-xl space-y-2 shadow-2xs">
+              <span className="text-sm font-black text-red-700 block">04. Dinlendirme</span>
+              <h5 className="text-sm font-bold text-stone-900">Lifleri Gevşetin</h5>
+              <p className="text-xs text-stone-500 leading-relaxed">
+                Tavadan alır almaz eti kesmeyin! Tahta tahtada 4-5 dakika bekletin. Böylece merkezdeki et suyu liflere geri dağılır ve lezzet hapsolur.
               </p>
             </div>
           </div>
         </div>
 
         {/* Part 3: Chef Recipes Feature */}
-        <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6 lg:p-8 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-neutral-800 pb-4">
+        <div className="bg-white border border-stone-200 rounded-2xl p-6 lg:p-8 space-y-6 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-200 pb-4">
             <div>
-              <span className="text-xs font-bold text-amber-400 uppercase tracking-wider">Şefin Reçetesi</span>
-              <h4 className="text-lg font-bold text-white mt-0.5">{selectedRecipe.title}</h4>
+              <span className="text-xs font-bold text-red-700 uppercase tracking-wider">Şefin Reçetesi</span>
+              <h4 className="text-lg font-bold text-stone-900 mt-0.5">{selectedRecipe.title}</h4>
             </div>
 
             <div className="flex items-center gap-2">
@@ -234,10 +234,10 @@ export const CookingGuide: React.FC = () => {
                 <button
                   key={r.id}
                   onClick={() => setActiveRecipeIndex(idx)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-md cursor-pointer transition-colors ${
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-lg cursor-pointer transition-colors ${
                     activeRecipeIndex === idx
-                      ? 'bg-red-700 text-white font-bold'
-                      : 'bg-neutral-950 text-neutral-400 hover:text-white border border-neutral-800'
+                      ? 'bg-red-700 text-white font-bold shadow-xs'
+                      : 'bg-stone-100 text-stone-600 hover:text-stone-900 border border-stone-200'
                   }`}
                 >
                   {r.meatType}
@@ -248,20 +248,20 @@ export const CookingGuide: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Ingredients */}
-            <div className="lg:col-span-5 space-y-3 bg-neutral-950 p-5 rounded-lg border border-neutral-800">
-              <div className="flex items-center justify-between text-xs text-neutral-400 border-b border-neutral-800 pb-2">
+            <div className="lg:col-span-5 space-y-3 bg-stone-50 p-5 rounded-xl border border-stone-200">
+              <div className="flex items-center justify-between text-xs text-stone-500 border-b border-stone-200 pb-2">
                 <span>Hazırlık: {selectedRecipe.prepTime}</span>
                 <span>Pişirme: {selectedRecipe.cookTime}</span>
                 <span>Zorluk: {selectedRecipe.difficulty}</span>
               </div>
 
-              <h5 className="text-xs font-bold text-amber-400 uppercase tracking-wider pt-1">
+              <h5 className="text-xs font-bold text-red-700 uppercase tracking-wider pt-1">
                 Gerekli Malzemeler ({selectedRecipe.servings} Kişilik)
               </h5>
-              <ul className="space-y-2 text-xs text-neutral-300">
+              <ul className="space-y-2 text-xs text-stone-700">
                 {selectedRecipe.ingredients.map((ing, i) => (
                   <li key={i} className="flex items-start gap-2">
-                    <span className="text-amber-400 font-bold">·</span>
+                    <span className="text-red-700 font-bold">·</span>
                     <span>{ing}</span>
                   </li>
                 ))}
@@ -270,13 +270,13 @@ export const CookingGuide: React.FC = () => {
 
             {/* Preparation Steps */}
             <div className="lg:col-span-7 space-y-4">
-              <h5 className="text-xs font-bold text-amber-400 uppercase tracking-wider">
+              <h5 className="text-xs font-bold text-red-700 uppercase tracking-wider">
                 Adım Adım Hazırlanışı
               </h5>
-              <div className="space-y-3 text-xs text-neutral-300">
+              <div className="space-y-3 text-xs text-stone-700">
                 {selectedRecipe.steps.map((step, idx) => (
                   <div key={idx} className="flex items-start gap-3">
-                    <span className="font-mono font-bold text-amber-400 text-xs shrink-0 pt-0.5 tabular-nums">
+                    <span className="font-mono font-bold text-red-700 text-xs shrink-0 pt-0.5 tabular-nums">
                       0{idx + 1}.
                     </span>
                     <p className="leading-relaxed">{step}</p>
@@ -284,8 +284,8 @@ export const CookingGuide: React.FC = () => {
                 ))}
               </div>
 
-              <div className="p-3.5 bg-amber-950/20 border border-amber-900/40 rounded text-xs text-neutral-300">
-                <span className="font-bold text-amber-400">Şefin Altın Notu: </span>
+              <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl text-xs text-stone-800">
+                <span className="font-bold text-red-800">Şefin Altın Notu: </span>
                 {selectedRecipe.chefTip}
               </div>
             </div>

@@ -710,7 +710,19 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
 
                   {/* 3. BANK TRANSFER / EFT */}
                   {paymentMethod === 'bank_transfer' && (
-                    <BankTransferInfo orderId="BON-SİPARİŞ" totalAmount={grandTotal} />
+                    <BankTransferInfo
+                      orderId="EFC-SİPARİŞ"
+                      totalAmount={grandTotal}
+                      customAccount={
+                        config.paymentSettings?.iban
+                          ? {
+                              bankName: config.paymentSettings.bankName,
+                              accountHolder: config.paymentSettings.accountHolder,
+                              iban: config.paymentSettings.iban,
+                            }
+                          : undefined
+                      }
+                    />
                   )}
 
                   {/* Total & Action Button */}

@@ -293,7 +293,7 @@ export default function App() {
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col bg-neutral-950 font-sans selection:bg-red-700 selection:text-white">
+    <div className="h-screen w-screen overflow-hidden flex flex-col bg-stone-100 font-sans selection:bg-red-700 selection:text-white">
       {/* Google Sites Iconic Top Toolbar (Always available in Editor mode) */}
       {viewMode !== 'live' ? (
         <TopToolbar
@@ -313,19 +313,19 @@ export default function App() {
         />
       ) : (
         /* Floating banner in Live Mode to easily return to Google Sites Editor */
-        <div className="bg-neutral-900 border-b border-neutral-800 px-4 py-2 flex items-center justify-between text-xs text-neutral-300 z-50">
+        <div className="bg-white border-b border-stone-200 px-4 py-2 flex items-center justify-between text-xs text-stone-700 z-50 shadow-2xs">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="font-semibold text-white">Canlı Site Önizleme Modu</span>
-            <span className="hidden sm:inline text-neutral-500">·</span>
-            <span className="hidden sm:inline text-neutral-400">Tüm butonlar, sepet ve formlar tam fonksiyonel olarak çalışmaktadır.</span>
+            <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
+            <span className="font-bold text-stone-900">Canlı Kasap Mağazası Önizleme Modu</span>
+            <span className="hidden sm:inline text-stone-300">·</span>
+            <span className="hidden sm:inline text-stone-500">Beyaz arka plan, zeytinyağlı & dağ kekikli kırmızı et görsel tasarımı aktif.</span>
           </div>
           <button
             onClick={() => setViewMode('editor')}
-            className="flex items-center gap-1.5 px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded cursor-pointer shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1 bg-stone-900 hover:bg-stone-800 text-white font-bold rounded-md cursor-pointer shadow-2xs"
           >
             <Code2 className="w-3.5 h-3.5" />
-            <span>Google Sites Düzenleyiciye Dön</span>
+            <span>Google Sites Düzenleyici</span>
           </button>
         </div>
       )}

@@ -57,6 +57,26 @@ export interface Recipe {
   chefTip: string;
 }
 
+export interface PaymentSettings {
+  mode: 'test' | 'live';
+  provider: 'paytr' | 'iyzico' | 'param' | 'bank_pos';
+  // PayTR
+  paytrMerchantId?: string;
+  paytrMerchantKey?: string;
+  paytrMerchantSalt?: string;
+  // iyzico
+  iyzicoApiKey?: string;
+  iyzicoSecretKey?: string;
+  // Bank Account for Havale
+  bankName?: string;
+  accountHolder?: string;
+  iban?: string;
+  // Payment methods toggle
+  enableCreditCard?: boolean;
+  enableCashOnDelivery?: boolean;
+  enableBankTransfer?: boolean;
+}
+
 export interface SiteConfig {
   brandName: string;
   establishedYear: string;
@@ -68,6 +88,7 @@ export interface SiteConfig {
   city: string;
   freeShippingThreshold: number;
   colorTheme: 'dark-gourmet' | 'classic-butcher' | 'warm-amber';
+  paymentSettings?: PaymentSettings;
 }
 
 export type PaymentMethod = 'credit_card' | 'cash_on_delivery' | 'bank_transfer';

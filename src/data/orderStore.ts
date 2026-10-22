@@ -2,7 +2,7 @@ import { OrderReceipt, Coupon, Product } from '../types';
 import { products as defaultProducts } from './mockData';
 
 const ORDERS_STORAGE_KEY = 'efecioglu_orders_v1';
-const PRODUCTS_STORAGE_KEY = 'efecioglu_products_v1';
+const PRODUCTS_STORAGE_KEY = 'efecioglu_products_v2';
 const COUPONS_STORAGE_KEY = 'efecioglu_coupons_v1';
 
 export const defaultCoupons: Coupon[] = [

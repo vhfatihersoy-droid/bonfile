@@ -38,51 +38,51 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      {/* Quiet top announcement strip */}
-      <div className="bg-neutral-950 text-neutral-400 text-xs py-1.5 px-4 border-b border-neutral-800 text-center font-medium">
+      {/* Butcher red top announcement strip */}
+      <div className="bg-gradient-to-r from-red-900 via-red-800 to-stone-900 text-white text-xs py-2 px-4 border-b border-red-950 text-center font-medium shadow-2xs">
         <div className="max-w-7xl mx-auto flex items-center justify-center gap-3">
-          <span className="text-amber-400 font-semibold">{config.establishedYear || '1984'}'TEN BERİ</span>
-          <span className="text-neutral-600">·</span>
+          <span className="bg-white/20 text-white px-2 py-0.5 rounded text-[10px] font-bold tracking-wider">{config.establishedYear || '1984'}'TEN BERİ</span>
+          <span className="text-red-300">·</span>
           <span>İstanbul İçi Aynı Gün Frigorifik (+4°C) Soğuk Zincir Teslimat</span>
-          <span className="hidden md:inline text-neutral-600">·</span>
+          <span className="hidden md:inline text-red-300">·</span>
           <span className="hidden md:inline">%100 Yerli Besi & Helal Kesim Garantisi</span>
         </div>
       </div>
 
       {/* Main Top Bar adhering strictly to 3-zone contract */}
-      <header className="sticky top-0 z-40 bg-neutral-950/95 backdrop-blur-md border-b border-neutral-800 transition-colors">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 transition-colors shadow-2xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-8">
-          {/* Zone 1: Brand Wordmark (Single text element in display face) */}
+          {/* Zone 1: Brand Wordmark */}
           <button
             onClick={() => handleLinkClick('hero')}
-            className="text-left group flex items-center gap-2 cursor-pointer shrink-0 focus-visible:outline-none"
+            className="text-left group flex items-center gap-2.5 cursor-pointer shrink-0 focus-visible:outline-none"
           >
-            <div className="w-8 h-8 rounded-sm bg-red-700 flex items-center justify-center text-white font-black text-xs tracking-tighter">
+            <div className="w-9 h-9 rounded-md bg-gradient-to-br from-red-700 to-red-900 flex items-center justify-center text-white font-black text-xs tracking-tighter shadow-sm">
               {config.establishedYear || '1984'}
             </div>
             <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl font-black tracking-wider text-white whitespace-nowrap group-hover:text-amber-400 transition-colors">
+              <span className="text-xl sm:text-2xl font-black tracking-wider text-stone-900 whitespace-nowrap group-hover:text-red-700 transition-colors">
                 {config.brandName}
               </span>
-              <span className="text-[10px] tracking-widest text-neutral-400 uppercase -mt-1 font-semibold">
-                Et & Et Ürünleri
+              <span className="text-[10px] tracking-widest text-red-700 uppercase -mt-0.5 font-bold">
+                Gurme Kasap & Entegre Et Tesisleri
               </span>
             </div>
           </button>
 
           {/* Zone 2: 4-5 Clean single-line nav links */}
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium text-neutral-300">
+          <nav className="hidden lg:flex items-center gap-7 text-sm font-semibold text-stone-700">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => handleLinkClick(link.id)}
-                className={`whitespace-nowrap shrink-0 transition-colors py-1 relative hover:text-white cursor-pointer ${
-                  activeSection === link.id ? 'text-amber-400 font-semibold' : 'text-neutral-300'
+                className={`whitespace-nowrap shrink-0 transition-colors py-1 relative hover:text-red-700 cursor-pointer ${
+                  activeSection === link.id ? 'text-red-700 font-extrabold' : 'text-stone-700'
                 }`}
               >
                 {link.label}
                 {activeSection === link.id && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-amber-400 rounded-full" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-red-700 rounded-full" />
                 )}
               </button>
             ))}
@@ -95,9 +95,9 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={onOpenAdmin}
                 title="Mağaza & Sipariş Yönetim Paneli"
-                className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-neutral-200 bg-neutral-900 border border-neutral-700 hover:border-amber-500/60 rounded-md hover:bg-neutral-800 hover:text-amber-400 transition-colors cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
+                className="flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-stone-800 bg-stone-100 border border-stone-300 hover:border-red-400 rounded-md hover:bg-stone-50 hover:text-red-700 transition-colors cursor-pointer whitespace-nowrap shrink-0 shadow-2xs"
               >
-                <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                <ShieldCheck className="w-3.5 h-3.5 text-red-700" />
                 <span className="hidden md:inline">Yönetim Paneli</span>
               </button>
             )}
@@ -106,22 +106,22 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onOpenCustomizer}
               title="Site Tasarım & Özelleştirme Sihirbazı"
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-neutral-300 bg-neutral-900 border border-neutral-700 rounded-md hover:bg-neutral-800 hover:text-white transition-colors cursor-pointer whitespace-nowrap shrink-0"
+              className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-stone-700 bg-stone-100 border border-stone-300 rounded-md hover:bg-stone-50 hover:text-stone-900 transition-colors cursor-pointer whitespace-nowrap shrink-0"
             >
-              <Sliders className="w-3.5 h-3.5 text-neutral-400" />
-              <span className="hidden xl:inline">Tasarım Sihirbazı</span>
+              <Sliders className="w-3.5 h-3.5 text-stone-500" />
+              <span className="hidden xl:inline">Tasarım</span>
             </button>
 
             {/* Shopping Cart button */}
             <button
               onClick={onOpenCart}
-              className="relative flex items-center gap-2 px-3 py-2 text-xs font-semibold text-white bg-red-700 hover:bg-red-800 rounded-md transition-colors cursor-pointer whitespace-nowrap shrink-0 shadow-sm"
+              className="relative flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-red-700 to-red-800 hover:from-red-800 hover:to-red-900 rounded-md transition-all cursor-pointer whitespace-nowrap shrink-0 shadow-sm shadow-red-700/20"
               aria-label="Alışveriş Sepeti"
             >
               <ShoppingBag className="w-4 h-4" />
               <span className="hidden sm:inline">Sepetim</span>
               {cartCount > 0 && (
-                <span className="inline-flex items-center justify-center px-1.5 py-0.5 text-[11px] font-bold bg-amber-400 text-neutral-950 rounded-full">
+                <span className="inline-flex items-center justify-center px-1.5 py-0.5 text-[11px] font-black bg-amber-400 text-stone-950 rounded-full">
                   {cartCount}
                 </span>
               )}
@@ -130,7 +130,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-neutral-400 hover:text-white cursor-pointer"
+              className="lg:hidden p-2 text-stone-700 hover:text-stone-900 cursor-pointer"
               aria-label="Menüyü Aç"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -140,12 +140,12 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Mobile menu dropdown */}
         {mobileMenuOpen && (
-          <div className="lg:hidden bg-neutral-950 border-b border-neutral-800 px-6 py-4 space-y-3">
+          <div className="lg:hidden bg-white border-b border-stone-200 px-6 py-4 space-y-3 shadow-md">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => handleLinkClick(link.id)}
-                className="block w-full text-left py-2 text-base font-medium text-neutral-300 hover:text-amber-400 border-b border-neutral-900"
+                className="block w-full text-left py-2 text-base font-semibold text-stone-800 hover:text-red-700 border-b border-stone-100"
               >
                 {link.label}
               </button>
@@ -156,7 +156,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   onNavigate('horeca');
                   setMobileMenuOpen(false);
                 }}
-                className="w-full text-center py-2.5 text-xs font-semibold bg-neutral-800 text-white rounded-md"
+                className="w-full text-center py-2.5 text-xs font-bold bg-red-700 text-white rounded-md hover:bg-red-800"
               >
                 Kurumsal / Horeca Teklif Al
               </button>

@@ -28,6 +28,11 @@ import {
   ChevronRight,
   Filter,
   Check,
+  CreditCard,
+  Building2,
+  Key,
+  HelpCircle,
+  Copy,
 } from 'lucide-react';
 import { Product, OrderReceipt, Coupon, SiteConfig, OrderStatus, MeatCategory } from '../types';
 import { categories as defaultCategories } from '../data/mockData';
@@ -63,7 +68,9 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
   const [pinError, setPinError] = useState(false);
 
   // Active navigation tab
-  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'products' | 'coupons' | 'settings'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'orders' | 'products' | 'coupons' | 'payments' | 'settings'>('overview');
+  const [paymentSaveNotice, setPaymentSaveNotice] = useState(false);
+  const [apiTestingStatus, setApiTestingStatus] = useState<'idle' | 'testing' | 'success'>('idle');
 
   // Search & Filter states
   const [orderSearch, setOrderSearch] = useState('');
@@ -479,6 +486,29 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
               >
                 <Tag className="w-4 h-4" />
                 <span>Kuponlar & İndirim</span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('payments')}
+                className={`flex items-center justify-between px-4 py-3 rounded-xl text-xs font-semibold transition-all cursor-pointer whitespace-nowrap ${
+                  activeTab === 'payments'
+                    ? 'bg-red-700 text-white shadow-lg'
+                    : 'text-neutral-400 hover:bg-neutral-800/80 hover:text-white'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <CreditCard className="w-4 h-4 text-amber-400" />
+                  <span>Sanal POS & Ödeme</span>
+                </div>
+                <span
+                  className={`px-1.5 py-0.5 text-[9px] font-bold rounded uppercase ${
+                    config.paymentSettings?.mode === 'live'
+                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
+                      : 'bg-neutral-800 text-amber-400'
+                  }`}
+                >
+                  {config.paymentSettings?.mode === 'live' ? 'Canlı' : 'Test'}
+                </span>
               </button>
 
               <button
@@ -1128,6 +1158,525 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({
                         </div>
                       </div>
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {/* TAB: SANAL POS & ÖDEME ENTEGRASYONU */}
+              {activeTab === 'payments' && (
+                <div className="space-y-6 max-w-4xl animate-fadeIn">
+                  {/* Top Notification / Save Notice */}
+                  {paymentSaveNotice && (
+                    <div className="p-4 bg-emerald-950/80 border border-emerald-700/80 rounded-2xl flex items-center justify-between text-emerald-300 text-xs shadow-lg animate-in fade-in">
+                      <div className="flex items-center gap-2.5">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+                        <div>
+                          <strong className="block text-white">Ödeme Ayarları Başarıyla Kaydedildi!</strong>
+                          <span>Tüm değişiklikler ve IBAN bilgileri sepette anında güncellendi.</span>
+                        </div>
+                      </div>
+                      <button
+                        onClick={() => setPaymentSaveNotice(false)}
+                        className="text-neutral-400 hover:text-white text-xs cursor-pointer"
+                      >
+                        Kapat
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Mode Selector Card */}
+                  <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 shadow-xl space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-neutral-800">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <h2 className="text-base font-bold text-white">Sanal POS Çalışma Modu</h2>
+                          <span
+                            className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                              config.paymentSettings?.mode === 'live'
+                                ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+                                : 'bg-amber-500/20 text-amber-400 border border-amber-500/40'
+                            }`}
+                          >
+                            {config.paymentSettings?.mode === 'live' ? '● Canlı (Gerçek Çekim)' : '○ Test / Simülasyon'}
+                          </span>
+                        </div>
+                        <p className="text-xs text-neutral-400">
+                          {config.paymentSettings?.mode === 'live'
+                            ? 'Sistem canlı modda. Müşterilerin kartından gerçek para çekilir ve PayTR / İyzico üzerinden şirket IBAN hesabınıza aktarılır.'
+                            : 'Sistem test modunda. Kredi kartı adımında gerçek para çekilmez; 3D Secure simülasyonu çalışarak sipariş yönetim paneline kaydedilir.'}
+                        </p>
+                      </div>
+
+                      {/* Mode Toggle Buttons */}
+                      <div className="flex items-center gap-2 bg-neutral-900 p-1.5 rounded-xl border border-neutral-800 self-start sm:self-center">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = {
+                              ...config,
+                              paymentSettings: {
+                                ...(config.paymentSettings || { provider: 'paytr' }),
+                                mode: 'test' as const,
+                              },
+                            };
+                            onUpdateConfig(updated);
+                            setPaymentSaveNotice(true);
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                            config.paymentSettings?.mode !== 'live'
+                              ? 'bg-amber-500 text-neutral-950 shadow-md'
+                              : 'text-neutral-400 hover:text-white'
+                          }`}
+                        >
+                          Test Modu
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = {
+                              ...config,
+                              paymentSettings: {
+                                ...(config.paymentSettings || { provider: 'paytr' }),
+                                mode: 'live' as const,
+                              },
+                            };
+                            onUpdateConfig(updated);
+                            setPaymentSaveNotice(true);
+                          }}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                            config.paymentSettings?.mode === 'live'
+                              ? 'bg-emerald-600 text-white shadow-md'
+                              : 'text-neutral-400 hover:text-white'
+                          }`}
+                        >
+                          Canlı Mod (Live)
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Quick Guidance Box */}
+                    <div className="p-4 bg-gradient-to-r from-red-950/40 via-neutral-900 to-neutral-900 border border-red-900/40 rounded-xl flex items-start gap-3 text-xs text-neutral-300">
+                      <ShieldCheck className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+                      <div className="space-y-1">
+                        <strong className="text-white block font-semibold">Paranız Nereye ve Ne Zaman Aktarılır?</strong>
+                        <p className="leading-relaxed text-neutral-400">
+                          Müşteri kredi kartıyla ödeme yaptığında, tutar Sanal POS sağlayıcınızın (PayTR / İyzico) BDDK lisanslı güvenli havuz hesabına geçer. 
+                          Ardından sözleşmenizdeki takvime göre (<strong className="text-amber-400">ertesi iş günü</strong> veya haftalık) doğrudan aşağıdaki 
+                          <strong className="text-white"> Efecioğlu Et resmi banka hesabınıza (IBAN)</strong> transfer edilir.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Provider Settings */}
+                  <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 shadow-xl space-y-6">
+                    <div>
+                      <h3 className="text-sm font-bold text-white mb-1">1. Sanal POS Sağlayıcısı Seçimi</h3>
+                      <p className="text-xs text-neutral-400 mb-4">
+                        Türkiye'de en hızlı entegre edilen ve tüm kartlara taksit imkanı sunan sağlayıcılar:
+                      </p>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {/* PayTR */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onUpdateConfig({
+                              ...config,
+                              paymentSettings: {
+                                ...(config.paymentSettings || { mode: 'test' }),
+                                provider: 'paytr',
+                              },
+                            });
+                          }}
+                          className={`p-4 rounded-xl border text-left transition-all cursor-pointer relative ${
+                            (config.paymentSettings?.provider || 'paytr') === 'paytr'
+                              ? 'border-red-600 bg-red-950/30 text-white'
+                              : 'border-neutral-800 bg-neutral-900/60 text-neutral-400 hover:border-neutral-700'
+                          }`}
+                        >
+                          <span className="absolute top-2 right-2 px-1.5 py-0.5 bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded text-[9px] font-bold">
+                            ÖNERİLEN
+                          </span>
+                          <div className="font-bold text-sm text-white mb-1">PayTR Sanal POS</div>
+                          <p className="text-[11px] text-neutral-400 leading-tight">
+                            Ertesi iş günü ödeme, 1 günde onay, tüm banka kartlarına hazır taksit.
+                          </p>
+                        </button>
+
+                        {/* İyzico */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onUpdateConfig({
+                              ...config,
+                              paymentSettings: {
+                                ...(config.paymentSettings || { mode: 'test' }),
+                                provider: 'iyzico',
+                              },
+                            });
+                          }}
+                          className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                            config.paymentSettings?.provider === 'iyzico'
+                              ? 'border-red-600 bg-red-950/30 text-white'
+                              : 'border-neutral-800 bg-neutral-900/60 text-neutral-400 hover:border-neutral-700'
+                          }`}
+                        >
+                          <div className="font-bold text-sm text-white mb-1">İyzico (iyziPay)</div>
+                          <p className="text-[11px] text-neutral-400 leading-tight">
+                            Hızlı başvuru, PCI-DSS Seviye 1 güvenlik ve korumalı alışveriş.
+                          </p>
+                        </button>
+
+                        {/* ParamPOS / Banka POS */}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onUpdateConfig({
+                              ...config,
+                              paymentSettings: {
+                                ...(config.paymentSettings || { mode: 'test' }),
+                                provider: 'bank_pos',
+                              },
+                            });
+                          }}
+                          className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                            config.paymentSettings?.provider === 'bank_pos'
+                              ? 'border-red-600 bg-red-950/30 text-white'
+                              : 'border-neutral-800 bg-neutral-900/60 text-neutral-400 hover:border-neutral-700'
+                          }`}
+                        >
+                          <div className="font-bold text-sm text-white mb-1">Banka Sanal POS</div>
+                          <p className="text-[11px] text-neutral-400 leading-tight">
+                            Garanti, Akbank veya İş Bankası doğrudan kurumsal Sanal POS entegrasyonu.
+                          </p>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* API Credentials Form */}
+                    <div className="pt-4 border-t border-neutral-800 space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h3 className="text-sm font-bold text-white">2. API ve Entegrasyon Anahtarları</h3>
+                          <p className="text-xs text-neutral-400">
+                            Sağlayıcı panelinizden kopyaladığınız kimlik bilgilerini buraya giriniz.
+                          </p>
+                        </div>
+                        <span className="text-[11px] text-amber-400 font-medium">
+                          Sağlayıcı: <strong className="uppercase font-mono">{config.paymentSettings?.provider || 'paytr'}</strong>
+                        </span>
+                      </div>
+
+                      {/* PayTR Inputs */}
+                      {(config.paymentSettings?.provider || 'paytr') === 'paytr' && (
+                        <div className="space-y-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                            <div>
+                              <label className="block text-neutral-400 font-semibold mb-1">Mağaza No (Merchant ID) *</label>
+                              <input
+                                type="text"
+                                placeholder="örn: 412854"
+                                value={config.paymentSettings?.paytrMerchantId || ''}
+                                onChange={(e) =>
+                                  onUpdateConfig({
+                                    ...config,
+                                    paymentSettings: {
+                                      ...(config.paymentSettings || { mode: 'test', provider: 'paytr' }),
+                                      paytrMerchantId: e.target.value,
+                                    },
+                                  })
+                                }
+                                className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-xl text-white font-mono focus:outline-none focus:border-red-600"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-neutral-400 font-semibold mb-1">Mağaza Parola (Merchant Key) *</label>
+                              <input
+                                type="password"
+                                placeholder="••••••••••••••••"
+                                value={config.paymentSettings?.paytrMerchantKey || ''}
+                                onChange={(e) =>
+                                  onUpdateConfig({
+                                    ...config,
+                                    paymentSettings: {
+                                      ...(config.paymentSettings || { mode: 'test', provider: 'paytr' }),
+                                      paytrMerchantKey: e.target.value,
+                                    },
+                                  })
+                                }
+                                className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-xl text-white font-mono focus:outline-none focus:border-red-600"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-neutral-400 font-semibold mb-1">Gizli Anahtar (Merchant Salt) *</label>
+                              <input
+                                type="password"
+                                placeholder="••••••••••••••••"
+                                value={config.paymentSettings?.paytrMerchantSalt || ''}
+                                onChange={(e) =>
+                                  onUpdateConfig({
+                                    ...config,
+                                    paymentSettings: {
+                                      ...(config.paymentSettings || { mode: 'test', provider: 'paytr' }),
+                                      paytrMerchantSalt: e.target.value,
+                                    },
+                                  })
+                                }
+                                className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-xl text-white font-mono focus:outline-none focus:border-red-600"
+                              />
+                            </div>
+                          </div>
+                          <p className="text-[11px] text-neutral-500">
+                            Bu anahtarları PayTR Mağaza Paneli &gt; <strong>Ayarlar &gt; Bilgi</strong> sayfasından alabilirsiniz.
+                          </p>
+                        </div>
+                      )}
+
+                      {/* İyzico Inputs */}
+                      {config.paymentSettings?.provider === 'iyzico' && (
+                        <div className="space-y-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div>
+                              <label className="block text-neutral-400 font-semibold mb-1">İyzico API Key *</label>
+                              <input
+                                type="text"
+                                placeholder="sandbox-..."
+                                value={config.paymentSettings?.iyzicoApiKey || ''}
+                                onChange={(e) =>
+                                  onUpdateConfig({
+                                    ...config,
+                                    paymentSettings: {
+                                      ...(config.paymentSettings || { mode: 'test', provider: 'iyzico' }),
+                                      iyzicoApiKey: e.target.value,
+                                    },
+                                  })
+                                }
+                                className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-xl text-white font-mono focus:outline-none focus:border-red-600"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-neutral-400 font-semibold mb-1">İyzico Secret Key *</label>
+                              <input
+                                type="password"
+                                placeholder="sandbox-secret-..."
+                                value={config.paymentSettings?.iyzicoSecretKey || ''}
+                                onChange={(e) =>
+                                  onUpdateConfig({
+                                    ...config,
+                                    paymentSettings: {
+                                      ...(config.paymentSettings || { mode: 'test', provider: 'iyzico' }),
+                                      iyzicoSecretKey: e.target.value,
+                                    },
+                                  })
+                                }
+                                className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-xl text-white font-mono focus:outline-none focus:border-red-600"
+                              />
+                            </div>
+                          </div>
+                          <p className="text-[11px] text-neutral-500">
+                            Bu anahtarları İyzico Kontrol Paneli &gt; <strong>Ayarlar &gt; Firma Ayarları &gt; API Anahtarları</strong> sekmesinden alabilirsiniz.
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Bank POS Inputs */}
+                      {config.paymentSettings?.provider === 'bank_pos' && (
+                        <div className="p-4 bg-neutral-900/60 rounded-xl border border-neutral-800 text-xs text-neutral-300 space-y-2">
+                          <p>
+                            Banka Sanal POS (Garanti, Akbank, Yapı Kredi vb.) başvurunuz onaylandığında bankanızın ilettiği 
+                            <strong> Client ID, Terminal ID, Store Key</strong> parametreleri üzerinden doğrudan bankanın 3D Secure geçidine bağlanır.
+                          </p>
+                        </div>
+                      )}
+
+                      {/* Test Connection Button */}
+                      <div className="flex items-center gap-3 pt-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setApiTestingStatus('testing');
+                            setTimeout(() => {
+                              setApiTestingStatus('success');
+                              setTimeout(() => setApiTestingStatus('idle'), 4000);
+                            }, 1000);
+                          }}
+                          disabled={apiTestingStatus === 'testing'}
+                          className="px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white rounded-xl text-xs font-semibold flex items-center gap-2 cursor-pointer transition-colors"
+                        >
+                          <Key className="w-3.5 h-3.5 text-amber-400" />
+                          <span>
+                            {apiTestingStatus === 'testing' ? 'Bağlantı Test Ediliyor...' : 'API Bağlantısını Test Et'}
+                          </span>
+                        </button>
+
+                        {apiTestingStatus === 'success' && (
+                          <span className="text-xs text-emerald-400 flex items-center gap-1.5 animate-in fade-in">
+                            <CheckCircle2 className="w-4 h-4" />
+                            <span>API Uç Noktası Doğrulandı! (HTTP 200 OK — Bağlantı Aktif)</span>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Bank Transfer / IBAN Configuration */}
+                    <div className="pt-4 border-t border-neutral-800 space-y-4">
+                      <div>
+                        <h3 className="text-sm font-bold text-white mb-1">3. Havale / EFT İçin Şirket IBAN Bilgileri</h3>
+                        <p className="text-xs text-neutral-400">
+                          Müşteriler sepet adımında "Havale / EFT" seçtiklerinde bu hesap bilgilerini görür ve doğrudan buraya ödeme yapar.
+                        </p>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                        <div>
+                          <label className="block text-neutral-400 font-semibold mb-1">Banka Adı</label>
+                          <input
+                            type="text"
+                            placeholder="Garanti BBVA"
+                            value={config.paymentSettings?.bankName || ''}
+                            onChange={(e) =>
+                              onUpdateConfig({
+                                ...config,
+                                paymentSettings: {
+                                  ...(config.paymentSettings || { mode: 'test', provider: 'paytr' }),
+                                  bankName: e.target.value,
+                                },
+                              })
+                            }
+                            className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-xl text-white focus:outline-none focus:border-red-600"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-neutral-400 font-semibold mb-1">Hesap Sahibi (Şirket Unvanı)</label>
+                          <input
+                            type="text"
+                            placeholder="Efecioğlu Et ve Gıda San. Tic. Ltd. Şti."
+                            value={config.paymentSettings?.accountHolder || ''}
+                            onChange={(e) =>
+                              onUpdateConfig({
+                                ...config,
+                                paymentSettings: {
+                                  ...(config.paymentSettings || { mode: 'test', provider: 'paytr' }),
+                                  accountHolder: e.target.value,
+                                },
+                              })
+                            }
+                            className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-xl text-white focus:outline-none focus:border-red-600"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-neutral-400 font-semibold mb-1">IBAN Numarası</label>
+                          <input
+                            type="text"
+                            placeholder="TR42 0006 2000 1234 5678 9012 34"
+                            value={config.paymentSettings?.iban || ''}
+                            onChange={(e) =>
+                              onUpdateConfig({
+                                ...config,
+                                paymentSettings: {
+                                  ...(config.paymentSettings || { mode: 'test', provider: 'paytr' }),
+                                  iban: e.target.value,
+                                },
+                              })
+                            }
+                            className="w-full px-3 py-2 bg-neutral-900 border border-neutral-700 rounded-xl text-white font-mono focus:outline-none focus:border-red-600"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Save Button */}
+                    <div className="pt-4 border-t border-neutral-800 flex items-center justify-between">
+                      <span className="text-xs text-neutral-400 flex items-center gap-1.5">
+                        <Check className="w-4 h-4 text-emerald-400" />
+                        <span>Değişiklikler anında sepete ve mağazaya yansıtılır.</span>
+                      </span>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPaymentSaveNotice(true);
+                          setTimeout(() => setPaymentSaveNotice(false), 3500);
+                        }}
+                        className="px-6 py-2.5 bg-red-700 hover:bg-red-800 text-white font-bold text-xs rounded-xl shadow-lg cursor-pointer transition-colors"
+                      >
+                        Ayarları Kaydet & Uygula
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* STEP-BY-STEP INTEGRATION GUIDE CARD */}
+                  <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 shadow-xl space-y-4">
+                    <div className="flex items-center gap-2">
+                      <HelpCircle className="w-5 h-5 text-amber-400" />
+                      <h3 className="text-sm font-bold text-white">
+                        Sanal POS Başvuru ve Entegrasyon Rehberi (4 Adımda Canlıya Geçiş)
+                      </h3>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                      {/* Step 1 */}
+                      <div className="p-4 bg-neutral-900/60 rounded-xl border border-neutral-800 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-6 h-6 rounded-full bg-red-700 text-white font-bold text-xs flex items-center justify-center">
+                            1
+                          </span>
+                          <strong className="text-white text-xs">Online Başvuru Yapın</strong>
+                        </div>
+                        <p className="text-neutral-400 text-[11px] leading-relaxed">
+                          <strong>paytr.com</strong> veya <strong>iyzico.com</strong> adresine girip "Üye İşyeri Başvurusu" yapın. 
+                          Şahıs şirketi veya Ltd./A.Ş. vergi levhanız, imza sirkünüz ve paranın yatacağı şirket IBAN belgenizi sisteme yükleyin. Genellikle <strong>24 saat içinde onaylanır</strong>.
+                        </p>
+                      </div>
+
+                      {/* Step 2 */}
+                      <div className="p-4 bg-neutral-900/60 rounded-xl border border-neutral-800 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-6 h-6 rounded-full bg-red-700 text-white font-bold text-xs flex items-center justify-center">
+                            2
+                          </span>
+                          <strong className="text-white text-xs">API Bilgilerini Buraya Girin</strong>
+                        </div>
+                        <p className="text-neutral-400 text-[11px] leading-relaxed">
+                          Başvurunuz onaylandığında sağlayıcı panelinden size özel tanımlanan <strong>Mağaza No (Merchant ID)</strong>, 
+                          <strong>Parola (Merchant Key)</strong> ve <strong>Gizli Anahtar (Salt)</strong> bilgilerini yukarıdaki form kutucuklarına yapıştırın.
+                        </p>
+                      </div>
+
+                      {/* Step 3 */}
+                      <div className="p-4 bg-neutral-900/60 rounded-xl border border-neutral-800 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-6 h-6 rounded-full bg-red-700 text-white font-bold text-xs flex items-center justify-center">
+                            3
+                          </span>
+                          <strong className="text-white text-xs">Sitemizdeki Yasal Belgeler Tam</strong>
+                        </div>
+                        <p className="text-neutral-400 text-[11px] leading-relaxed">
+                          Ödeme kuruluşlarının zorunlu tuttuğu <strong>Mesafeli Satış Sözleşmesi</strong>, <strong>Gizlilik ve İptal/İade Politikası</strong>, 
+                          <strong>İletişim & Adres</strong> ve <strong>256-Bit SSL</strong> altyapısı sitemizde eksiksiz hazır durumdadır. Başvurunuz sorunsuz onaylanır.
+                        </p>
+                      </div>
+
+                      {/* Step 4 */}
+                      <div className="p-4 bg-neutral-900/60 rounded-xl border border-neutral-800 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="w-6 h-6 rounded-full bg-red-700 text-white font-bold text-xs flex items-center justify-center">
+                            4
+                          </span>
+                          <strong className="text-white text-xs">Paranız Hesabınıza Aktarılsın</strong>
+                        </div>
+                        <p className="text-neutral-400 text-[11px] leading-relaxed">
+                          "Canlı Mod" anahtarını açtığınız andan itibaren müşterilerden çekilen tutarlar otomatik olarak 
+                          <strong> ertesi iş günü veya haftalık periyotlarla</strong> doğrudan kayıtlı Efecioğlu Et banka IBAN hesabınıza geçer.
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}

@@ -5,9 +5,14 @@ import { BankAccount } from '../../types';
 interface BankTransferInfoProps {
   orderId: string;
   totalAmount: number;
+  customAccount?: {
+    bankName?: string;
+    accountHolder?: string;
+    iban?: string;
+  };
 }
 
-const officialBankAccounts: BankAccount[] = [
+const defaultBankAccounts: BankAccount[] = [
   {
     bankName: 'Garanti BBVA',
     accountHolder: 'Efecioğlu Et ve Gıda Sanayi Tic. Ltd. Şti.',
@@ -22,8 +27,19 @@ const officialBankAccounts: BankAccount[] = [
   },
 ];
 
-export const BankTransferInfo: React.FC<BankTransferInfoProps> = ({ orderId, totalAmount }) => {
+export const BankTransferInfo: React.FC<BankTransferInfoProps> = ({ orderId, totalAmount, customAccount }) => {
   const [copiedIban, setCopiedIban] = useState<string | null>(null);
+
+  const activeAccounts: BankAccount[] = customAccount?.iban
+    ? [
+        {
+          bankName: customAccount.bankName || 'Banka Hesabı',
+          accountHolder: customAccount.accountHolder || 'Efecioğlu Et',
+          iban: customAccount.iban,
+          branch: 'Ana Şube',
+        },
+      ]
+    : defaultBankAccounts;
 
   const handleCopy = (iban: string) => {
     navigator.clipboard.writeText(iban.replace(/\s+/g, ''));
@@ -41,7 +57,7 @@ export const BankTransferInfo: React.FC<BankTransferInfoProps> = ({ orderId, tot
       </div>
 
       <div className="space-y-3">
-        {officialBankAccounts.map((bank, index) => {
+        {activeAccounts.map((bank, index) => {
           const isCopied = copiedIban === bank.iban;
           return (
             <div

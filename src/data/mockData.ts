@@ -11,6 +11,21 @@ export const initialSiteConfig: SiteConfig = {
   city: 'Beylikdüzü / İstanbul',
   freeShippingThreshold: 1500,
   colorTheme: 'dark-gourmet',
+  paymentSettings: {
+    mode: 'test',
+    provider: 'paytr',
+    paytrMerchantId: 'MOCK_MERCHANT_1984',
+    paytrMerchantKey: 'mock_key_efecioglu_987654',
+    paytrMerchantSalt: 'mock_salt_kasap_321',
+    iyzicoApiKey: 'sandbox-iyzico-efc-api-key',
+    iyzicoSecretKey: 'sandbox-iyzico-secret-key-1984',
+    bankName: 'Garanti BBVA',
+    accountHolder: 'Efecioğlu Et ve Gıda Sanayi Tic. Ltd. Şti.',
+    iban: 'TR42 0006 2000 1234 5678 9012 34',
+    enableCreditCard: true,
+    enableCashOnDelivery: true,
+    enableBankTransfer: true,
+  },
 };
 
 export const categories = [
@@ -112,7 +127,7 @@ export const products: Product[] = [
     origin: 'Trakya Meraları',
     badge: 'Özel Kesim',
     inStock: true,
-    imageUrl: 'https://images.unsplash.com/photo-1588168333986-5078d3ae3976?w=800&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1558030006-450675393462?w=800&auto=format&fit=crop&q=80',
     nutritionPer100g: {
       calories: 210,
       protein: 22,
@@ -145,7 +160,7 @@ export const products: Product[] = [
     origin: 'Bandırma & Çanakkale Doğal Besi',
     badge: 'Kasabın Tavsiyesi',
     inStock: true,
-    imageUrl: 'https://images.unsplash.com/photo-1558030006-450675393462?w=800&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1607623814075-e51df1bdc82f?w=800&auto=format&fit=crop&q=80',
     nutritionPer100g: {
       calories: 218,
       protein: 21.5,
@@ -330,7 +345,7 @@ export const products: Product[] = [
     origin: 'Geleneksel Efecioğlu Üretimi',
     badge: 'Doğal Fermente',
     inStock: true,
-    imageUrl: 'https://images.unsplash.com/photo-1628102491629-778571d893a3?w=800&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1585325701165-351af916e581?w=800&auto=format&fit=crop&q=80',
     nutritionPer100g: {
       calories: 340,
       protein: 17,
@@ -361,7 +376,7 @@ export const products: Product[] = [
     origin: 'Kayseri',
     badge: 'Özel Dilim',
     inStock: true,
-    imageUrl: 'https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=800&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80',
     nutritionPer100g: {
       calories: 250,
       protein: 29.5,
@@ -392,7 +407,7 @@ export const products: Product[] = [
     origin: 'Efecioğlu Entegre Tesisleri',
     badge: 'Odun Ateşi',
     inStock: true,
-    imageUrl: 'https://images.unsplash.com/photo-1633321702518-7feccafb94d5?w=800&auto=format&fit=crop&q=80',
+    imageUrl: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800&auto=format&fit=crop&q=80',
     nutritionPer100g: {
       calories: 215,
       protein: 23.5,

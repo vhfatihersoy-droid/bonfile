@@ -107,15 +107,15 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
   };
 
   return (
-    <div className="flex-1 bg-neutral-950/90 overflow-y-auto flex flex-col items-center">
+    <div className="flex-1 bg-stone-100 overflow-y-auto flex flex-col items-center">
       {/* If simulated device, show banner */}
       {viewMode === 'editor' && deviceMode !== 'desktop' && (
-        <div className="py-2 text-center text-xs text-neutral-400 font-mono">
+        <div className="py-2 text-center text-xs text-stone-500 font-mono">
           {deviceMode === 'mobile' ? 'Mobil Görünüm (375px)' : 'Tablet Görünüm (768px)'}
         </div>
       )}
 
-      <div className={`transition-all duration-300 bg-neutral-950 ${getContainerWidthClass()}`}>
+      <div className={`transition-all duration-300 bg-white ${getContainerWidthClass()}`}>
         {/* Render Site Header / Navbar */}
         <Navbar
           config={config}
@@ -128,7 +128,7 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
         />
 
         {/* Sections of the active page */}
-        <div className="divide-y divide-neutral-900">
+        <div className="divide-y divide-stone-200">
           {activePage.sections.map((section, index) => (
             <SectionWrapper
               key={section.id}
