@@ -46,6 +46,7 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
   products,
   categories,
   cartCount,
+  orders = [],
   onOpenCart,
   onOpenCustomizer,
   onOpenAdmin,
