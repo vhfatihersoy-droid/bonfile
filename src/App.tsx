@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { initialSiteConfig, categories, products as initialProducts } from './data/mockData';
 import { initialPages, defaultThemes } from './data/builderData';
-import { Product, CartItem, SiteConfig, OrderReceipt, Coupon } from './types';
+import { Product, CartItem, SiteConfig, OrderReceipt, Coupon, MeatCategory } from './types';
 import {
   getStoredOrders,
   saveStoredOrders,
@@ -40,6 +40,10 @@ export default function App() {
   const [isAdminOpen, setIsAdminOpen] = useState(false);
   const [isPublishOpen, setIsPublishOpen] = useState(false);
   const [isPublished, setIsPublished] = useState(true);
+
+  // E-commerce live search & category filter state
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<MeatCategory>('all');
 
   // Sync state changes with localStorage
   const handleUpdateProducts = (updatedProducts: Product[]) => {
@@ -308,6 +312,10 @@ export default function App() {
   };
 
   const totalCartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+  const totalCartPrice = cartItems.reduce((acc, item) => {
+    const itemPrice = Math.round(item.product.basePrice * item.selectedWeight.multiplier);
+    return acc + itemPrice * item.quantity;
+  }, 0);
 
   return (
     <div className="h-screen w-screen overflow-hidden flex flex-col bg-stone-100 font-sans selection:bg-red-700 selection:text-white">
@@ -335,7 +343,7 @@ export default function App() {
             <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
             <span className="font-bold text-stone-900">Canlı Kasap Mağazası Önizleme Modu</span>
             <span className="hidden sm:inline text-stone-300">·</span>
-            <span className="hidden sm:inline text-stone-500">Beyaz arka plan, zeytinyağlı & dağ kekikli kırmızı et görsel tasarımı aktif.</span>
+            <span className="hidden sm:inline text-stone-500">Bonfilet tarzı geniş slider, dairesel kategori ikonları ve entegre arama aktif.</span>
           </div>
           <button
             onClick={() => setViewMode('editor')}
@@ -358,7 +366,12 @@ export default function App() {
           products={products}
           categories={categories}
           cartCount={totalCartCount}
+          cartTotal={totalCartPrice}
           orders={orders}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
           onOpenCart={() => setIsCartOpen(true)}
           onOpenCustomizer={() => setIsCustomizerOpen(true)}
           onOpenAdmin={() => setIsAdminOpen(true)}

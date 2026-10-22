@@ -1,8 +1,10 @@
 import React from 'react';
 import { DeviceMode, ViewMode, SiteSection, SitePage } from '../../types/siteBuilder';
-import { Product, CartItem, SiteConfig, OrderReceipt } from '../../types';
+import { Product, CartItem, SiteConfig, OrderReceipt, MeatCategory } from '../../types';
 import { SectionWrapper } from './SectionWrapper';
 import { DynamicBlockRenderer } from './DynamicBlockRenderer';
+import { BonfiletHeroSlider } from '../BonfiletHeroSlider';
+import { CategoryCircleShowcase } from '../CategoryCircleShowcase';
 import { Hero } from '../Hero';
 import { ProductCatalog } from '../ProductCatalog';
 import { AboutFacility } from '../AboutFacility';
@@ -24,7 +26,12 @@ interface BuilderCanvasProps {
   products: Product[];
   categories: readonly { id: string; name: string }[];
   cartCount: number;
+  cartTotal?: number;
   orders?: OrderReceipt[];
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
+  selectedCategory?: MeatCategory;
+  onSelectCategory?: (category: MeatCategory) => void;
   onOpenCart: () => void;
   onOpenCustomizer: () => void;
   onOpenAdmin?: () => void;
@@ -46,7 +53,12 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
   products,
   categories,
   cartCount,
+  cartTotal = 0,
   orders = [],
+  searchQuery = '',
+  onSearchChange,
+  selectedCategory = 'all',
+  onSelectCategory,
   onOpenCart,
   onOpenCustomizer,
   onOpenAdmin,
@@ -77,11 +89,20 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
     switch (section.type) {
       case 'hero':
         return (
-          <Hero
-            config={config}
-            onExploreProducts={() => onNavigateSection('urunler')}
-            onRequestB2BQuote={() => onNavigateSection('horeca')}
-          />
+          <>
+            <BonfiletHeroSlider
+              config={config}
+              onExploreProducts={() => onNavigateSection('urunler')}
+              onRequestB2BQuote={() => onNavigateSection('horeca')}
+              onNavigateSection={onNavigateSection}
+            />
+            <CategoryCircleShowcase
+              selectedCategory={selectedCategory}
+              onSelectCategory={(cat) => {
+                if (onSelectCategory) onSelectCategory(cat);
+              }}
+            />
+          </>
         );
 
       case 'catalog':
@@ -89,6 +110,10 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
           <ProductCatalog
             products={products}
             categories={categories}
+            selectedCategory={selectedCategory}
+            onSelectCategory={onSelectCategory}
+            searchQuery={searchQuery}
+            onSearchChange={onSearchChange}
             onSelectProduct={onSelectProduct}
             onAddToCart={onAddToCart}
           />
@@ -142,11 +167,15 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
         <Navbar
           config={config}
           cartCount={cartCount}
+          cartTotal={cartTotal}
           onOpenCart={onOpenCart}
           onOpenCustomizer={onOpenCustomizer}
           onOpenAdmin={onOpenAdmin}
           activeSection="hero"
           onNavigate={onNavigateSection}
+          searchQuery={searchQuery}
+          onSearchChange={onSearchChange}
+          onSelectCategory={onSelectCategory}
         />
 
         {/* Sections of the active page */}

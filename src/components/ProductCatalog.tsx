@@ -6,6 +6,10 @@ import { MeatVisual } from './MeatVisual';
 interface ProductCatalogProps {
   products: Product[];
   categories: readonly { id: string; name: string }[];
+  selectedCategory?: MeatCategory;
+  onSelectCategory?: (category: MeatCategory) => void;
+  searchQuery?: string;
+  onSearchChange?: (query: string) => void;
   onSelectProduct: (product: Product) => void;
   onAddToCart: (product: Product, selectedWeight: { label: string; grams: number; multiplier: number }) => void;
 }
@@ -13,22 +17,45 @@ interface ProductCatalogProps {
 export const ProductCatalog: React.FC<ProductCatalogProps> = ({
   products,
   categories,
+  selectedCategory: propCategory,
+  onSelectCategory,
+  searchQuery: propSearchQuery,
+  onSearchChange,
   onSelectProduct,
   onAddToCart,
 }) => {
-  const [selectedCategory, setSelectedCategory] = useState<MeatCategory>('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [localCategory, setLocalCategory] = useState<MeatCategory>('all');
+  const [localSearch, setLocalSearch] = useState('');
   const [selectedWeights, setSelectedWeights] = useState<Record<string, number>>({});
   const [addedAnimation, setAddedAnimation] = useState<string | null>(null);
 
+  const activeCategory = propCategory !== undefined ? propCategory : localCategory;
+  const activeSearch = propSearchQuery !== undefined ? propSearchQuery : localSearch;
+
+  const handleCategoryClick = (cat: MeatCategory) => {
+    if (onSelectCategory) {
+      onSelectCategory(cat);
+    } else {
+      setLocalCategory(cat);
+    }
+  };
+
+  const handleSearchUpdate = (val: string) => {
+    if (onSearchChange) {
+      onSearchChange(val);
+    } else {
+      setLocalSearch(val);
+    }
+  };
+
   // Filter products based on category and search
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory;
+    const matchesCategory = activeCategory === 'all' || product.category === activeCategory;
     const matchesSearch =
-      searchQuery.trim() === '' ||
-      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.tagline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.cutLocation.toLowerCase().includes(searchQuery.toLowerCase());
+      activeSearch.trim() === '' ||
+      product.name.toLowerCase().includes(activeSearch.toLowerCase()) ||
+      product.tagline.toLowerCase().includes(activeSearch.toLowerCase()) ||
+      product.cutLocation.toLowerCase().includes(activeSearch.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
@@ -71,15 +98,15 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           <div className="relative w-full md:w-72">
             <input
               type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={activeSearch}
+              onChange={(e) => handleSearchUpdate(e.target.value)}
               placeholder="Ürün veya kesim ara (örn. Dallas, Antrikot)..."
               className="w-full pl-9 pr-4 py-2.5 text-xs bg-white border border-stone-300 rounded-lg text-stone-900 placeholder-stone-400 focus:outline-none focus:border-red-700 focus:ring-1 focus:ring-red-700 transition-colors shadow-2xs"
             />
             <Search className="w-4 h-4 text-stone-400 absolute left-3 top-3" />
-            {searchQuery && (
+            {activeSearch && (
               <button
-                onClick={() => setSearchQuery('')}
+                onClick={() => handleSearchUpdate('')}
                 className="absolute right-2.5 top-2.5 text-xs text-stone-400 hover:text-stone-700 font-medium"
               >
                 Temizle
@@ -93,9 +120,9 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
           {categories.map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setSelectedCategory(cat.id as MeatCategory)}
+              onClick={() => handleCategoryClick(cat.id as MeatCategory)}
               className={`px-4 py-2 text-xs font-semibold rounded-lg transition-all whitespace-nowrap shrink-0 cursor-pointer ${
-                selectedCategory === cat.id
+                activeCategory === cat.id
                   ? 'bg-red-700 text-white font-bold shadow-md shadow-red-700/20'
                   : 'bg-white text-stone-700 hover:text-red-800 hover:bg-stone-100 border border-stone-200/90 shadow-2xs'
               }`}
@@ -113,8 +140,8 @@ export const ProductCatalog: React.FC<ProductCatalogProps> = ({
             <p className="text-xs text-stone-500 mt-1">Farklı bir arama terimi deneyebilir veya kategoriyi değiştirebilirsiniz.</p>
             <button
               onClick={() => {
-                setSelectedCategory('all');
-                setSearchQuery('');
+                handleCategoryClick('all');
+                handleSearchUpdate('');
               }}
               className="mt-4 px-4 py-2 text-xs font-bold bg-stone-800 text-white rounded-lg hover:bg-stone-700"
             >
