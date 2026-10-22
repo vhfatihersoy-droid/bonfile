@@ -112,17 +112,34 @@ export default function App() {
   };
 
   // Cart operations
-  const handleAddToCart = (product: Product, selectedWeight: { label: string; grams: number; multiplier: number }) => {
+  const handleAddToCart = (
+    product: Product,
+    selectedWeight: { label: string; grams: number; multiplier: number },
+    customOptions?: { marinade?: string; sliceThickness?: string; packaging?: string }
+  ) => {
     setCartItems((prev) => {
       const existingIndex = prev.findIndex(
-        (item) => item.product.id === product.id && item.selectedWeight.grams === selectedWeight.grams
+        (item) =>
+          item.product.id === product.id &&
+          item.selectedWeight.grams === selectedWeight.grams &&
+          item.marinade === customOptions?.marinade
       );
       if (existingIndex > -1) {
         const copy = [...prev];
         copy[existingIndex].quantity += 1;
         return copy;
       } else {
-        return [...prev, { product, selectedWeight, quantity: 1 }];
+        return [
+          ...prev,
+          {
+            product,
+            selectedWeight,
+            quantity: 1,
+            marinade: customOptions?.marinade,
+            sliceThickness: customOptions?.sliceThickness,
+            packaging: customOptions?.packaging,
+          },
+        ];
       }
     });
     setIsCartOpen(true);
@@ -341,6 +358,7 @@ export default function App() {
           products={products}
           categories={categories}
           cartCount={totalCartCount}
+          orders={orders}
           onOpenCart={() => setIsCartOpen(true)}
           onOpenCustomizer={() => setIsCustomizerOpen(true)}
           onOpenAdmin={() => setIsAdminOpen(true)}

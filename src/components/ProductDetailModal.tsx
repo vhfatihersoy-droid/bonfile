@@ -6,7 +6,11 @@ import { MeatVisual } from './MeatVisual';
 interface ProductDetailModalProps {
   product: Product | null;
   onClose: () => void;
-  onAddToCart: (product: Product, selectedWeight: { label: string; grams: number; multiplier: number }) => void;
+  onAddToCart: (
+    product: Product,
+    selectedWeight: { label: string; grams: number; multiplier: number },
+    customOptions?: { marinade?: string; sliceThickness?: string; packaging?: string }
+  ) => void;
 }
 
 export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
@@ -17,13 +21,20 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
   if (!product) return null;
 
   const [selectedWeightIndex, setSelectedWeightIndex] = useState(0);
+  const [selectedMarinade, setSelectedMarinade] = useState('Dağ Kekiği & Ayvalık Sızma Zeytinyağlı');
+  const [selectedThickness, setSelectedThickness] = useState('Standart Dilim (2 cm)');
+  const [selectedPackaging, setSelectedPackaging] = useState('Çift Kat Termoform Vakum (+4°C)');
   const [justAdded, setJustAdded] = useState(false);
 
   const currentWeight = product.weights[selectedWeightIndex] || product.weights[0];
   const totalPrice = Math.round(product.basePrice * currentWeight.multiplier);
 
   const handleAdd = () => {
-    onAddToCart(product, currentWeight);
+    onAddToCart(product, currentWeight, {
+      marinade: selectedMarinade,
+      sliceThickness: selectedThickness,
+      packaging: selectedPackaging,
+    });
     setJustAdded(true);
     setTimeout(() => {
       setJustAdded(false);
@@ -131,11 +142,91 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             </div>
           </div>
 
-          {/* Weight Selection & Purchase bar */}
+          {/* Butcher Marinade & Preparation Selection */}
           <div className="pt-2 border-t border-stone-200 space-y-3">
-            <div className="space-y-1.5">
+            <div>
+              <span className="text-xs font-bold text-stone-800 uppercase tracking-wider block mb-1.5">
+                Usta Kasap Marinasyonu:
+              </span>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                {[
+                  { name: 'Dağ Kekiği & Ayvalık Sızma Zeytinyağlı', desc: 'Taze kekik, sızma zeytinyağı ve deniz tuzu' },
+                  { name: 'Taze Biberiye & Sarımsaklı', desc: 'Biberiye dalı, ezilmiş sarımsak ve karabiber' },
+                  { name: 'Doğal / Marinesiz', desc: 'Klasik katkısız taze kasap kesimi' },
+                ].map((m) => {
+                  const isSel = selectedMarinade === m.name;
+                  return (
+                    <button
+                      key={m.name}
+                      onClick={() => setSelectedMarinade(m.name)}
+                      className={`p-2.5 text-left rounded-xl border transition-all cursor-pointer ${
+                        isSel
+                          ? 'border-red-600 bg-red-50/70 text-red-900 ring-1 ring-red-600'
+                          : 'border-stone-200 bg-white hover:bg-stone-50 text-stone-700'
+                      }`}
+                    >
+                      <span className="text-xs font-bold block">{m.name}</span>
+                      <span className="text-[10px] text-stone-500 mt-0.5 block leading-tight">{m.desc}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <span className="text-xs font-bold text-stone-800 uppercase tracking-wider block mb-1.5">
+                  Dilim Kalınlığı:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    'Standart Dilim (2 cm)',
+                    'Steakhouse Kalın (3.5 cm)',
+                    'Bütün Blok (Dilimsiz)',
+                  ].map((t) => (
+                    <button
+                      key={t}
+                      onClick={() => setSelectedThickness(t)}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
+                        selectedThickness === t
+                          ? 'bg-stone-900 text-white font-bold border-stone-900'
+                          : 'bg-stone-100 text-stone-700 hover:bg-stone-200 border-stone-200'
+                      }`}
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <span className="text-xs font-bold text-stone-800 uppercase tracking-wider block mb-1.5">
+                  Ambalaj & Koruma:
+                </span>
+                <div className="flex flex-wrap gap-1.5">
+                  {[
+                    'Çift Kat Termoform Vakum (+4°C)',
+                    'Kasap Kağıdında Taze Sarım',
+                  ].map((pkg) => (
+                    <button
+                      key={pkg}
+                      onClick={() => setSelectedPackaging(pkg)}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg border transition-colors cursor-pointer ${
+                        selectedPackaging === pkg
+                          ? 'bg-stone-900 text-white font-bold border-stone-900'
+                          : 'bg-stone-100 text-stone-700 hover:bg-stone-200 border-stone-200'
+                      }`}
+                    >
+                      {pkg}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-1.5 pt-1">
               <span className="text-xs font-bold text-stone-600 uppercase tracking-wider">
-                Gramaj / Paket Seçeneği:
+                Gramaj / Porsiyon:
               </span>
               <div className="flex flex-wrap gap-2">
                 {product.weights.map((w, idx) => (

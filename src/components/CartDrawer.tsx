@@ -369,6 +369,16 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                                   <span className="text-[11px] text-amber-400 block font-medium">
                                     {item.selectedWeight.label}
                                   </span>
+                                  {item.marinade && (
+                                    <span className="text-[10px] text-stone-300 block truncate">
+                                      🌿 {item.marinade}
+                                    </span>
+                                  )}
+                                  {item.sliceThickness && (
+                                    <span className="text-[10px] text-stone-400 block truncate">
+                                      🔪 {item.sliceThickness}
+                                    </span>
+                                  )}
                                 </div>
 
                                 <div className="flex items-center justify-between mt-2">

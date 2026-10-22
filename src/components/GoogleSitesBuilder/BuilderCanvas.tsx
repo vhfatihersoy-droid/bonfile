@@ -1,6 +1,6 @@
 import React from 'react';
 import { DeviceMode, ViewMode, SiteSection, SitePage } from '../../types/siteBuilder';
-import { Product, CartItem, SiteConfig } from '../../types';
+import { Product, CartItem, SiteConfig, OrderReceipt } from '../../types';
 import { SectionWrapper } from './SectionWrapper';
 import { DynamicBlockRenderer } from './DynamicBlockRenderer';
 import { Hero } from '../Hero';
@@ -9,6 +9,9 @@ import { AboutFacility } from '../AboutFacility';
 import { CookingGuide } from '../CookingGuide';
 import { HorecaB2B } from '../HorecaB2B';
 import { Testimonials } from '../Testimonials';
+import { MeatAnatomyExplorer } from '../MeatAnatomyExplorer';
+import { SteakCookingCalculator } from '../SteakCookingCalculator';
+import { ColdChainMonitor } from '../ColdChainMonitor';
 import { Navbar } from '../Navbar';
 import { Footer } from '../Footer';
 import { Plus } from 'lucide-react';
@@ -21,6 +24,7 @@ interface BuilderCanvasProps {
   products: Product[];
   categories: readonly { id: string; name: string }[];
   cartCount: number;
+  orders?: OrderReceipt[];
   onOpenCart: () => void;
   onOpenCustomizer: () => void;
   onOpenAdmin?: () => void;
@@ -92,8 +96,25 @@ export const BuilderCanvas: React.FC<BuilderCanvasProps> = ({
       case 'about':
         return <AboutFacility config={config} />;
 
+      case 'anatomy-explorer':
+        return (
+          <MeatAnatomyExplorer
+            products={products}
+            onSelectProductBySlug={(slug) => {
+              const p = products.find((x) => x.slug === slug);
+              if (p) onSelectProduct(p);
+            }}
+          />
+        );
+
       case 'cooking-guide':
         return <CookingGuide />;
+
+      case 'steak-calculator':
+        return <SteakCookingCalculator />;
+
+      case 'cold-chain':
+        return <ColdChainMonitor orders={orders || []} />;
 
       case 'horeca':
         return <HorecaB2B config={config} />;

@@ -42,6 +42,9 @@ export interface CartItem {
   product: Product;
   selectedWeight: { label: string; grams: number; multiplier: number };
   quantity: number;
+  marinade?: string;
+  sliceThickness?: string;
+  packaging?: string;
 }
 
 export interface Recipe {

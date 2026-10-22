@@ -25,11 +25,12 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
   const navLinks = [
-    { id: 'urunler', label: 'Ürünlerimiz' },
-    { id: 'kurumsal', label: `${config.establishedYear || '1984'} Mirası` },
-    { id: 'pisirme-rehberi', label: 'Şefin Rehberi' },
-    { id: 'horeca', label: 'Ev Dışı Tüketim' },
-    { id: 'iletisim', label: 'İletişim' },
+    { id: 'urunler', label: 'Taze Et Kataloğu' },
+    { id: 'anatomi-rehberi', label: 'Karkas Anatomisi' },
+    { id: 'pisirme-hesaplayici', label: 'Mühürleme Asistanı' },
+    { id: 'soguk-zincir', label: 'Soğuk Zincir (+4°C)' },
+    { id: 'horeca', label: 'Horeca & Toptan' },
+    { id: 'kurumsal', label: 'Entegre Tesis' },
   ];
 
   const handleLinkClick = (id: string) => {

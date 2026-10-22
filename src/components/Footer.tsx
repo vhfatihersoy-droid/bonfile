@@ -41,13 +41,23 @@ export const Footer: React.FC<FooterProps> = ({ config, onNavigate, onOpenCustom
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('kurumsal')} className="hover:text-red-400 transition-colors cursor-pointer">
-                  {config.establishedYear || '1984'} Kurumsal Mirası
+                <button onClick={() => onNavigate('anatomi-rehberi')} className="hover:text-red-400 transition-colors cursor-pointer">
+                  Karkas & Kesim Anatomisi
                 </button>
               </li>
               <li>
-                <button onClick={() => onNavigate('pisirme-rehberi')} className="hover:text-red-400 transition-colors cursor-pointer">
-                  Şefin Pişirme Rehberi
+                <button onClick={() => onNavigate('pisirme-hesaplayici')} className="hover:text-red-400 transition-colors cursor-pointer">
+                  Mühürleme & Pişirme Asistanı
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('soguk-zincir')} className="hover:text-red-400 transition-colors cursor-pointer">
+                  Soğuk Zincir (+4°C) Takibi
+                </button>
+              </li>
+              <li>
+                <button onClick={() => onNavigate('kurumsal')} className="hover:text-red-400 transition-colors cursor-pointer">
+                  {config.establishedYear || '1984'} Entegre Tesis Mirası
                 </button>
               </li>
               <li>
