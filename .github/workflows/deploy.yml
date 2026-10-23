@@ -38,19 +38,17 @@ jobs:
       - name: Build current application
         working-directory: site
         run: npm run build
-      - name: Prepare GitHub Pages entry
+      - name: Build storefront for GitHub Pages
+        working-directory: site
         run: |
-          mkdir -p pages-dist
-          cp index.html pages-dist/index.html
-          cp public/redirect.js pages-dist/redirect.js
-          cp public/ozlemce-logo.png pages-dist/ozlemce-logo.png
-          touch pages-dist/.nojekyll
+          npm run build:pages
+          touch dist-pages/.nojekyll
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: pages-dist
+          path: site/dist-pages
   deploy:
     environment:
       name: github-pages

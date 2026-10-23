@@ -1,4 +1,5 @@
 import React from 'react';
+import {assetUrl} from '../cms/config';
 
 interface OzlemceLogoProps {
   className?: string;
@@ -26,7 +27,7 @@ export const OzlemceLogo: React.FC<OzlemceLogoProps> = ({
       <div className={`flex flex-col items-start ${className}`}>
         <div className="bg-white px-3 py-1.5 rounded-lg shadow-sm border border-stone-200/20 inline-flex items-center">
           <img
-            src={`/ozlemce-logo.png`}
+            src={assetUrl('ozlemce-logo.png')}
             alt="Özlemce Et Entegre Tesisi"
             className={`${imgHeightClass} w-auto object-contain max-w-[220px]`}
             onError={() => setImageError(true)}
@@ -40,7 +41,7 @@ export const OzlemceLogo: React.FC<OzlemceLogoProps> = ({
     <div className={`flex items-center gap-2 ${className}`}>
       {!imageError ? (
         <img
-          src={`/ozlemce-logo.png`}
+          src={assetUrl('ozlemce-logo.png')}
           alt="Özlemce Et Entegre Tesisi"
           className={`${imgHeightClass} w-auto object-contain`}
           onError={() => setImageError(true)}

@@ -70,3 +70,29 @@ test('uploads enforce bytes and MIME; referenced media and history assets cannot
  const unused=await upload(webp);const unusedKey=((await unused.json() as any).image as string).slice(6);assert.equal((await call('library','DELETE',{key:unusedKey})).status,200);assert.ok(!objects.has(unusedKey));
  const tombstone='cccccccc-cccc-cccc-cccc-cccccccccccc/dddddddd-dddd-dddd-dddd-dddddddddddd.webp';sql.prepare('INSERT INTO cms_media VALUES (?,?,?,?,?)').run(tombstone,'deleting','image/webp','now',owner.userId);doc.home.heroImage=`media:${tombstone}`;assert.equal((await call('draft','POST',{document:doc,revision:3})).data.error,'INVALID_MEDIA');
 });
+
+test('GitHub Pages can only read the published catalog without credentials',async()=>{
+ const {env,call}=fixture();await call('session','POST');
+ const draft=(await call('draft')).data;
+ draft.document.products[0].pricePerKg=2300;
+ await call('draft','POST',{document:draft.document,revision:draft.revision});
+ const pages='https://vhfatihersoy-droid.github.io';
+ const get=(path:string,originValue=pages)=>handleCms(new Request(`${origin}/api/${path}`,{headers:{Origin:originValue}}),env,null);
+ const before=await get('catalog');
+ assert.equal(before.headers.get('Access-Control-Allow-Origin'),pages);
+ assert.equal(before.headers.get('Access-Control-Allow-Credentials'),null);
+ assert.equal(before.headers.get('Vary'),'Origin');
+ assert.equal((await before.json() as typeof initialDocument).products[0].pricePerKg,2400);
+ await call('publish','POST',{revision:2});
+ const after=await get('catalog');assert.equal((await after.json() as typeof initialDocument).products[0].pricePerKg,2300);
+ for(const path of ['draft','history','library','session']) {
+   const response=await get(path);
+   assert.equal(response.headers.get('Access-Control-Allow-Origin'),null);
+   if(path!=='session')assert.equal(response.status,401);
+ }
+ for(const site of ['https://attacker.example','https://vhfatihersoy-droid.github.io.attacker.example','null'])assert.equal((await get('catalog',site)).headers.get('Access-Control-Allow-Origin'),null);
+ const write=await handleCms(new Request(`${origin}/api/draft`,{method:'POST',headers:{Origin:pages,'Content-Type':'application/json'},body:'{}'}),env,owner);
+ assert.equal(write.status,403);assert.equal(write.headers.get('Access-Control-Allow-Origin'),null);
+ const preflight=await handleCms(new Request(`${origin}/api/draft`,{method:'OPTIONS',headers:{Origin:pages,'Access-Control-Request-Method':'POST'}}),env,owner);
+ assert.equal(preflight.status,405);assert.equal(preflight.headers.get('Access-Control-Allow-Origin'),null);
+});

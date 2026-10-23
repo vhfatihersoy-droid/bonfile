@@ -1,4 +1,4 @@
-import { mediaUrl } from '../cms/config';
+import { mediaUrl, assetUrl } from '../cms/config';
 export type CategoryId = 'steak' | 'beef' | 'lamb' | 'meatball' | 'charcuterie' | 'doner' | 'horeca';
 export interface CatalogProduct {
   id: string;
@@ -38,4 +38,4 @@ export const catalogProducts: CatalogProduct[] = [
 ];
 export const featuredProductIds = ['dana-bonfile-lokum','dana-antrikot','kuzu-pirzola','efecioglu-kasap-kofte'];
 export const categoryById = (id: string) => catalogCategories.find(category => category.id === id);
-export const imagePath = (name: string) => name.startsWith('media:') ? mediaUrl(name.slice(6)) : `/images/${name}.jpg`;
+export const imagePath = (name: string) => name.startsWith('media:') ? mediaUrl(name.slice(6)) : assetUrl(`images/${name}.jpg`);

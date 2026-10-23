@@ -1,7 +1,9 @@
 {
-  "sourceCommit": "922700007a092f6643168bd359a02c1587b60dc9",
-  "sitesVersion": 4,
-  "liveUrl": "https://bonfile.tarimakademi.chatgpt.site/",
+  "sourceCommit": "d6ccba1265aafab4fe35603917d62e14f5192586",
+  "sitesVersion": 5,
+  "liveUrl": "https://vhfatihersoy-droid.github.io/bonfile/",
+  "backendUrl": "https://bonfile.tarimakademi.chatgpt.site/",
+  "adminUrl": "https://bonfile.tarimakademi.chatgpt.site/#/yonetim",
   "sourceDirectory": "site",
-  "githubPagesMode": "redirect-to-live-site"
+  "githubPagesMode": "storefront"
 }

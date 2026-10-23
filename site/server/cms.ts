@@ -49,7 +49,11 @@ export async function handleCms(request:Request,env:CmsEnv,user:Identity):Promis
   const db=env.DB;if(!db)throw new ApiError(503,'SERVICE_UNAVAILABLE');
   if(path==='/api/catalog' && method==='GET'){
     await initialize(db);const state=await db.prepare("SELECT live_document FROM cms_state WHERE id='main'").first<{live_document:string}>();
-    return json(publicDocument(document(JSON.parse(state!.live_document))));
+    const response=json(publicDocument(document(JSON.parse(state!.live_document))));
+    response.headers.set('Vary','Origin');
+    // Cross-origin access is limited to the already-public catalog, without credentials.
+    if(request.headers.get('origin')==='https://vhfatihersoy-droid.github.io')response.headers.set('Access-Control-Allow-Origin','https://vhfatihersoy-droid.github.io');
+    return response;
   }
   if(path.startsWith('/api/media/')&&method==='GET'){
     const key=path.slice('/api/media/'.length);if(!mediaKey.test(key)||!env.BUCKET)throw new ApiError(404,'NOT_FOUND');

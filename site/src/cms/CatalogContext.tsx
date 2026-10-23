@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { documentSchema, initialDocument, publicDocument, type CatalogDocument } from './model';
+import { publicApiUrl } from './config';
 export const CatalogContext = createContext<CatalogDocument>(initialDocument);
 export const useCatalog = () => useContext(CatalogContext);
 export function CatalogProvider({children}: {children:ReactNode}) {
@@ -11,7 +12,7 @@ export function CatalogProvider({children}: {children:ReactNode}) {
     let active=true;
     async function load() {
       try {
-        const response=await fetch('/api/catalog',{signal:controller.signal,cache:'no-store'});
+        const response=await fetch(publicApiUrl('catalog'),{signal:controller.signal,cache:'no-store',credentials:'omit'});
         if(!response.ok)throw new Error('Katalog alınamadı.');
         const result=documentSchema.parse(await response.json());
         if(active) setDocument(publicDocument(result));

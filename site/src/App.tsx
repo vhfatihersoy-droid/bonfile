@@ -7,6 +7,7 @@ import { catalogHref, filterCatalog, readRoute } from './lib/catalog';
 import { CatalogProvider, useCatalog } from './cms/CatalogContext';
 import { ShopProvider, useShop, ProductCard, PurchaseOptions, Favorites } from './shop/Shop';
 import { pricePerKg } from './shop/pricing';
+import {adminHref, publicApiOrigin} from './cms/config';
 const AdminApp = lazy(() => import('./cms/AdminApp'));
 
 const homeHref = '#/ana-sayfa';
@@ -92,13 +93,13 @@ function Help() {
 }
 
 function Privacy() {
-  return <div className="shell page-content reading-page"><span className="eyebrow">SİTE KULLANIMI</span><h1>Gizlilik hakkında.</h1><div className="reading-copy"><h2>Sade bir katalog deneyimi</h2><p>Ürün kataloğunu incelemek için üyelik gerekmez. Katalogda sipariş veya ödeme bilgisi toplanmaz.</p><h2>Yönetici girişi ve içerik yönetimi</h2><p>İçerik yönetimi yalnızca yetkilendirilmiş ChatGPT hesabına açıktır. Giriş Sites üzerinden doğrulanır; site şifre saklamaz. Ürünler ve içerikler sunucudaki veritabanında tutulur. Yüklenen katalog görselleri herkese açık bağlantılarla sunulur. Oturum çerezleri, güvenli girişin çalışması için kullanılır.</p><h2>Arama ve tercihler</h2><p>Katalog aramaları tarayıcınızda işlenir. Aradığınız kelime ve seçtiğiniz kategori, sayfanın bağlantısındaki # işaretinden sonraki bölümde tutulur. Sepet ve favoriler yalnızca bu tarayıcının yerel depolamasında saklanır; başka cihazlarla eşitlenmez. Tarayıcı site verilerini silerek bu seçimleri kaldırabilirsiniz. Site, reklam veya analiz çerezi kullanmaz.</p><h2>Barındırma</h2><p>Site OpenAI Sites üzerinde barındırılır. Barındırma hizmeti güvenlik ve işletim amacıyla teknik bağlantı bilgilerini işleyebilir. Ayrıntılar için <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noopener noreferrer">OpenAI Gizlilik Politikası’nı</a> inceleyebilirsiniz.</p></div></div>;
+  return <div className="shell page-content reading-page"><span className="eyebrow">SİTE KULLANIMI</span><h1>Gizlilik hakkında.</h1><div className="reading-copy"><h2>Sade bir katalog deneyimi</h2><p>Ürün kataloğunu incelemek için üyelik gerekmez. Katalogda sipariş veya ödeme bilgisi toplanmaz.</p><h2>Yönetici girişi ve içerik yönetimi</h2><p>İçerik yönetimi yalnızca yetkilendirilmiş ChatGPT hesabına açıktır. Giriş Sites üzerinden doğrulanır; site şifre saklamaz. Ürünler ve içerikler sunucudaki veritabanında tutulur. Yüklenen katalog görselleri herkese açık bağlantılarla sunulur. Oturum çerezleri, güvenli girişin çalışması için kullanılır.</p><h2>Arama ve tercihler</h2><p>Katalog aramaları tarayıcınızda işlenir. Aradığınız kelime ve seçtiğiniz kategori, sayfanın bağlantısındaki # işaretinden sonraki bölümde tutulur. Sepet ve favoriler yalnızca bu tarayıcının yerel depolamasında saklanır; başka cihazlarla eşitlenmez. Tarayıcı site verilerini silerek bu seçimleri kaldırabilirsiniz. Site, reklam veya analiz çerezi kullanmaz.</p><h2>Barındırma</h2><p>{publicApiOrigin?'Mağazanın arayüzü GitHub Pages üzerinde, ürün verileri ve yönetim paneli OpenAI Sites üzerinde barındırılır.':'Site OpenAI Sites üzerinde barındırılır.'} Barındırma hizmeti güvenlik ve işletim amacıyla teknik bağlantı bilgilerini işleyebilir. Ayrıntılar için <a href="https://openai.com/policies/privacy-policy/" target="_blank" rel="noopener noreferrer">OpenAI Gizlilik Politikası’nı</a> inceleyebilirsiniz.{publicApiOrigin&&<> GitHub Pages için <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Gizlilik Bildirimi</a> de geçerlidir.</>}</p></div></div>;
 }
 
 function NotFound() {return <div className="shell empty-state not-found"><span className="eyebrow">404 / SAYFA BULUNAMADI</span><h1>Bu sayfa sofrada yok.</h1><p>Ürün kataloğundan keşfetmeye devam edebilirsiniz.</p><a className="button" href={catalogHref()}>Ürünlerimizi keşfedin <ArrowRight size={18}/></a></div>;}
 
 function Footer() {
-  return <footer className="site-footer"><div className="shell"><div className="footer-main"><div className="footer-brand"><a href={homeHref} aria-label="Özlemce ana sayfa"><OzlemceLogo size="lg"/></a><p>Özenli seçimler.<br/>Paylaşılan sofralar.</p></div><div className="footer-column"><h2>Ürünlerimiz</h2>{catalogCategories.slice(0,4).map(c=><a key={c.id} href={catalogHref(c.id)}>{c.name}</a>)}</div><div className="footer-column"><h2>Keşfedin</h2><a href={catalogHref('charcuterie')}>Şarküteri</a><a href={catalogHref('doner')}>Döner</a><a href={catalogHref('horeca')}>Profesyonel mutfak</a><a href="#/rehber">Mutfak rehberi</a></div><div className="footer-column"><h2>Özlemce</h2><a href="#/hakkimizda">Hakkımızda</a><a href="#/yardim">Sık sorulan sorular</a><a href="#/gizlilik">Gizlilik</a><a href="#/yonetim">Yönetim</a><a className="footer-back" href={homeHref}>Ana sayfaya dön <ArrowUpRight size={15}/></a></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Özlemce Et Entegre Tesisi</span><span>Ürün kataloğu <span className="footer-dot">·</span> Sofranıza ilham verir.</span></div></div></footer>;
+  return <footer className="site-footer"><div className="shell"><div className="footer-main"><div className="footer-brand"><a href={homeHref} aria-label="Özlemce ana sayfa"><OzlemceLogo size="lg"/></a><p>Özenli seçimler.<br/>Paylaşılan sofralar.</p></div><div className="footer-column"><h2>Ürünlerimiz</h2>{catalogCategories.slice(0,4).map(c=><a key={c.id} href={catalogHref(c.id)}>{c.name}</a>)}</div><div className="footer-column"><h2>Keşfedin</h2><a href={catalogHref('charcuterie')}>Şarküteri</a><a href={catalogHref('doner')}>Döner</a><a href={catalogHref('horeca')}>Profesyonel mutfak</a><a href="#/rehber">Mutfak rehberi</a></div><div className="footer-column"><h2>Özlemce</h2><a href="#/hakkimizda">Hakkımızda</a><a href="#/yardim">Sık sorulan sorular</a><a href="#/gizlilik">Gizlilik</a><a href={adminHref}>Yönetim</a><a className="footer-back" href={homeHref}>Ana sayfaya dön <ArrowUpRight size={15}/></a></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Özlemce Et Entegre Tesisi</span><span>Ürün kataloğu <span className="footer-dot">·</span> Sofranıza ilham verir.</span></div></div></footer>;
 }
 
 function Storefront() {
@@ -132,6 +133,8 @@ function Storefront() {
   return <div className="storefront"><a className="skip-link" href="#main-content" onClick={e=>{e.preventDefault();mainRef.current?.focus();}}>İçeriğe geç</a><Header hash={hash}/><main id="main-content" ref={mainRef} tabIndex={-1} data-route={path}>{content}</main><Footer/></div>;
 }
 
+function AdminRedirect(){useEffect(()=>{window.location.replace(adminHref);},[]);return <div className="catalog-connection" role="status"><p>Güvenli yönetim paneli açılıyor…</p><a className="button" href={adminHref}>Yönetim paneline devam et</a></div>;}
+
 export default function App() {
   const [hash,setHash]=useState(window.location.hash);
   const currentHash=useRef(hash);currentHash.current=hash;
@@ -147,6 +150,7 @@ export default function App() {
     }
     setHash(next);
   };window.addEventListener('hashchange',change);return()=>window.removeEventListener('hashchange',change);},[]);
+  if(publicApiOrigin&&['yonetim','admin'].includes(readRoute(hash).path))return <AdminRedirect/>;
   if(['yonetim','admin'].includes(readRoute(hash).path)) return <Suspense fallback={<div className="catalog-connection" role="status">Yönetim yükleniyor…</div>}><AdminApp onDirtyChange={onDirtyChange}/></Suspense>;
   return <CatalogProvider><ShopProvider><Storefront/></ShopProvider></CatalogProvider>;
 }

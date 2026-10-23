@@ -1,16 +1,21 @@
-# Özlemce — Mağaza ve güvenli yönetim paneli
+# Özlemce — Canlı mağaza ve güvenli yönetim paneli
 
-Güncel mağaza ve yönetim panelinin kaynak kodu **[`site/`](./site)** dizininde yayımlanır.
+**[Canlı mağaza](https://vhfatihersoy-droid.github.io/bonfile/)** doğrudan GitHub Pages üzerinde çalışır. Güncel kaynak kodu **[`site/`](./site)** dizinindedir.
 
-- [GitHub Pages bağlantısı](https://vhfatihersoy-droid.github.io/bonfile/) — güncel canlı mağazaya yönlenir.
-- [Canlı mağaza](https://bonfile.tarimakademi.chatgpt.site/)
-- [Yönetim paneli](https://bonfile.tarimakademi.chatgpt.site/#/yonetim)
+- [Mağaza](https://vhfatihersoy-droid.github.io/bonfile/)
+- [Güvenli yönetim paneli](https://bonfile.tarimakademi.chatgpt.site/#/yonetim)
 
-## Güncel sürüm
+## Mağaza
 
-Kategori menüsü, ürün araması, gramaj seçimi, tahmini fiyatlar, favoriler ve tarayıcıda korunan sepet içerir. Kilogram fiyatları panelden düzenlenir; paket tutarı seçilen gramaja göre hesaplanır. Fiyatlar tahminidir. Sipariş ve ödeme alınmaz.
+Kategori menüsü, ürün araması, gramaj seçimi, tahmini fiyatlar, favoriler ve tarayıcıda korunan sepet içerir. Kilogram fiyatları panelden düzenlenir; paket tutarı seçilen gramaja göre hesaplanır. Fiyatlar tahminidir. Sipariş ve ödeme henüz alınmaz.
 
-Yönetim paneli yetkili ChatGPT hesabıyla açılır. Ürünler, görseller ve ana sayfa içerikleri panelden düzenlenir. Taslak, önizleme, yayın ve sürüm geçmişi korunur. Kalıcı içerik Sites D1, yüklenen görseller Sites R2 üzerinde tutulur.
+Ürünler, fiyatlar ve ana sayfa içerikleri mevcut yönetim panelinden yayımlanır. GitHub mağazası açıldığında yayımlanmış kataloğu Sites API üzerinden okur. İçerik değişiklikleri için GitHub derlemesi gerekmez; açık mağaza sayfasını yenilemek yeterlidir.
+
+## Yönetim ve veriler
+
+Yönetim paneli yetkili ChatGPT hesabıyla açılır. Ürünler, görseller ve ana sayfa içerikleri panelden düzenlenir. Taslak, önizleme, yayın ve sürüm geçmişi korunur. Kalıcı içerik Sites D1, yüklenen görseller Sites R2 üzerinde tutulur. Yönetim bağlantısı güvenli Sites adresini açar; normal ürün sayfaları GitHub Pages adresinde kalır.
+
+Katalog API'si yalnızca yayımlanmış bilgileri GitHub Pages kökenine açar. Yönetim uçları ve yazma işlemleri bu çapraz köken erişimine dahil değildir. Oturum bilgileri, ortam sırları, yerel veritabanı ve kullanıcı yüklemeleri depoya konulmaz.
 
 ## Geliştirme
 
@@ -21,13 +26,14 @@ cd site
 npm ci
 npm run typecheck
 npm test
-npm run build
+npm run build:pages
+npm run preview:pages
 ```
 
-Canlı Sites sürümü 4 ile eşleşen kaynak commit'i ve yayın bilgileri [`site-source.json`](./site-source.json) dosyasındadır. Yalnızca Git tarafından izlenen kaynaklar ve sabit görseller alınmıştır; oturum bilgileri, ortam sırları, yerel veritabanı ve kullanıcı yüklemeleri bu depoda bulunmaz.
+Statik mağaza çıktısı `site/dist-pages/` dizinindedir. GitHub depo yolu `/bonfile/`, katalog adresi ise `vite.pages.config.ts` içinde tanımlıdır. Canlı katalog yalnızca gerçek GitHub Pages kökenine izin verir; yerel önizleme varlık ve görünüm kontrolü içindir. Backend geliştirmesi ve tam yerel CMS testi için `site/README.md` içindeki Sites akışını kullanın. `npm run build` Sites sunuculu uygulamasını derler.
 
-## Yayın yapısı
+## Yayın
 
-GitHub Actions güncel `site/` kaynaklarını doğrular ve GitHub Pages yönlendirme sayfasını yayımlar. Pages adresindeki ürün rotası ve sorgu korunur. Güvenli giriş, yönetim API'si ve veritabanı mevcut Sites yayını üzerinde çalışır. GitHub'a kaynak göndermek Sites üretim ortamını otomatik güncellemez; bunun için mevcut Sites kaynak/derleme/paketleme akışı kullanılır.
+GitHub Actions `main` dalındaki kaynakları doğrular, testleri ve iki derlemeyi çalıştırır; gerçek mağazanın `site/dist-pages/` çıktısını GitHub Pages'e yayımlar. Mağaza ana sayfası başka adrese yönlenmez. Yayımlanan kaynak commit'i ve Sites sürümü [`site-source.json`](./site-source.json) dosyasındadır.
 
-Kök dizindeki önceki katalog kaynakları ve `docs/` geçmiş sürüm için korunmuştur. Güncel geliştirme için `site/` dizinini kullanın. Supabase kurulumu gerekmez.
+GitHub'a kaynak göndermek Sites backend'ini otomatik güncellemez. Backend değişiklikleri mevcut Sites kaynak/derleme/paketleme akışıyla ayrıca yayımlanır. Kök dizindeki eski katalog ve yönlendirme dosyaları ile `docs/` geçmiş için korunmuştur; güncel Pages yayını bunları kullanmaz. Supabase kurulumu gerekmez.
