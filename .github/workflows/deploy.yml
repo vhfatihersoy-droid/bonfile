@@ -1,9 +1,8 @@
-name: Deploy to GitHub Pages
+name: Validate storefront and publish GitHub Pages
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -12,7 +11,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: pages
   cancel-in-progress: true
 
 jobs:
@@ -21,38 +20,37 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 11.25.0
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Check types
-        run: pnpm typecheck
-
-      - name: Test catalog behavior
-        run: pnpm test
-
-      - name: Build
-        run: pnpm build
-
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+      - name: Install current application
+        working-directory: site
+        run: npm ci --no-audit --no-fund
+      - name: Check current application types
+        working-directory: site
+        run: npm run typecheck
+      - name: Test catalog, pricing, cart and CMS authorization
+        working-directory: site
+        run: npm test
+      - name: Build current application
+        working-directory: site
+        run: npm run build
+      - name: Prepare GitHub Pages entry
+        run: |
+          mkdir -p pages-dist
+          cp index.html pages-dist/index.html
+          cp public/redirect.js pages-dist/redirect.js
+          cp public/ozlemce-logo.png pages-dist/ozlemce-logo.png
+          touch pages-dist/.nojekyll
       - name: Setup Pages
         uses: actions/configure-pages@v4
-
-      - name: Upload artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
-
+          path: pages-dist
   deploy:
     environment:
       name: github-pages
