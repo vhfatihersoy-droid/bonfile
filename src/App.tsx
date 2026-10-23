@@ -1,8 +1,11 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUpRight, ChevronDown, Flame, Menu, Search, Utensils, X } from 'lucide-react';
 import { OzlemceLogo } from './components/OzlemceLogo';
-import { catalogCategories, catalogProducts, categoryById, featuredProductIds, imagePath, type CatalogProduct } from './data/catalog';
+import { catalogCategories, categoryById, imagePath, type CatalogProduct } from './data/catalog';
 import { catalogHref, filterCatalog, readRoute } from './lib/catalog';
+
+import { CatalogProvider, useCatalog } from './cms/CatalogContext';
+const AdminApp = lazy(() => import('./cms/AdminApp'));
 
 const productHref = (id: string) => `#/urun/${id}`;
 const homeHref = '#/ana-sayfa';
@@ -48,20 +51,22 @@ function Header({ hash }: { hash: string }) {
   </>;
 }
 
-function Home() {
+export function Home() {
+  const {home, products:catalogProducts}=useCatalog();
   return <>
     <section className="hero shell" aria-labelledby="hero-title">
-      <div className="hero-copy"><span className="eyebrow"><span className="tiny-line"/> SOFRANIN BAŞLANGICI</span><h1 id="hero-title">İyi bir sofra,<br/>özenli bir<br/><em>seçimle başlar.</em></h1><p>Gündelik lezzetlerden özel buluşmalara.<br className="desktop-break"/> Sofranıza yakışan kesimi Özlemce ile keşfedin.</p><div className="hero-actions"><a className="button" href={catalogHref()}>Ürünlerimizi keşfedin <ArrowUpRight size={20}/></a><a className="text-link" href="#/rehber">Mutfaktan ilham alın <ArrowRight size={17}/></a></div><div className="hero-footnote"><span>01 / ÖZLEMCE SEÇKİSİ</span><a href="#kategoriler" onClick={e=>{e.preventDefault();document.getElementById('kategoriler')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}} aria-label="Ürün kategorilerine ilerle"><ArrowDown size={18}/></a></div></div>
-      <div className="hero-visual"><img src={imagePath('steak')} alt="Taze otlar ve baharatlarla hazırlanan et sunumu" fetchPriority="high" width="1400" height="1400"/><div className="hero-image-shade"/><div className="image-top-label"><span className="status-dot"/> ÖZLEMCE MUTFAĞINDAN</div><div className="hero-caption"><div><span>HER SOFRAYA BİR SEÇİM</span><h2>Lezzet, ayrıntıda saklı.</h2></div><a href={catalogHref('steak')} className="circle-link" aria-label="Steak ve özel kesimleri keşfedin"><ArrowUpRight size={25}/></a></div></div>
+      <div className="hero-copy"><span className="eyebrow"><span className="tiny-line"/> {home.heroEyebrow}</span><h1 id="hero-title">{home.heroTitle}<br/><em>{home.heroAccent}</em></h1><p>{home.heroDescription}</p><div className="hero-actions"><a className="button" href={catalogHref()}>{home.heroButton} <ArrowUpRight size={20}/></a><a className="text-link" href="#/rehber">Mutfaktan ilham alın <ArrowRight size={17}/></a></div><div className="hero-footnote"><span>01 / ÖZLEMCE SEÇKİSİ</span><a href="#kategoriler" onClick={e=>{e.preventDefault();document.getElementById('kategoriler')?.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}} aria-label="Ürün kategorilerine ilerle"><ArrowDown size={18}/></a></div></div>
+      <div className="hero-visual"><img src={imagePath(home.heroImage)} alt={home.heroImageAlt} fetchPriority="high" width="1400" height="1400"/><div className="hero-image-shade"/><div className="image-top-label"><span className="status-dot"/> ÖZLEMCE MUTFAĞINDAN</div><div className="hero-caption"><div><span>HER SOFRAYA BİR SEÇİM</span><h2>{home.heroCaption}</h2></div><a href={catalogHref('steak')} className="circle-link" aria-label="Steak ve özel kesimleri keşfedin"><ArrowUpRight size={25}/></a></div></div>
     </section>
-    <section id="kategoriler" className="category-section shell" aria-labelledby="category-title"><div className="section-heading compact"><div><span className="eyebrow">NE HAZIRLAMAK İSTERSİNİZ?</span><h2 id="category-title">Sofranıza göre seçin.</h2></div><a className="text-link" href={catalogHref()}>Tüm ürünler <ArrowRight size={18}/></a></div><div className="category-grid">{catalogCategories.slice(0,6).map((category,i)=><a className="category-tile" href={catalogHref(category.id)} key={category.id}><div className="category-image"><img src={imagePath(category.image)} alt="" loading="lazy" width="160" height="160"/></div><span className="category-number">0{i+1}</span><h3>{category.shortName}</h3><ArrowUpRight size={18}/></a>)}</div></section>
-    <section className="featured-section"><div className="shell"><div className="section-heading"><div><span className="eyebrow">ÖZLEMCE SEÇKİSİ</span><h2>Bir sonraki sofranız için.</h2></div><p>Sevilen kesimler, tanıdık lezzetler.<br/>Mutfağınızın yeni fikri burada.</p></div><div className="product-grid featured-grid">{featuredProductIds.map(id=><ProductCard key={id} product={catalogProducts.find(p=>p.id===id)!}/>)}</div></div></section>
-    <section className="editorial shell"><div className="editorial-photo"><img src={imagePath('izgara')} alt="Izgarada hazırlanan et ve garnitür sunumu" loading="lazy" width="700" height="700"/><span className="photo-caption">MUTFAK NOTLARI / 01</span></div><div className="editorial-copy"><span className="eyebrow">KESİMDEN SOFRAYA</span><h2>Her kesimin<br/>kendine özgü<br/><em>bir lezzeti var.</em></h2><p>Izgaraya ne yakışır? Tencerede hangi kesim öne çıkar? Seçtiğiniz ürüne uygun hazırlama fikirlerini keşfedin.</p><a className="button light" href="#/rehber">Mutfak rehberini inceleyin <ArrowUpRight size={19}/></a></div></section>
-    <section className="brand-note shell"><span className="eyebrow">ÖZLEMCE ET ENTEGRE TESİSİ</span><h2>Sofralar değişir.<br/><em>Birlikte olmanın tadı kalır.</em></h2><a className="text-link" href="#/hakkimizda">Özlemce’yi tanıyın <ArrowRight size={18}/></a></section>
+    <section id="kategoriler" className="category-section shell" aria-labelledby="category-title"><div className="section-heading compact"><div><span className="eyebrow">NE HAZIRLAMAK İSTERSİNİZ?</span><h2 id="category-title">{home.categoriesTitle}</h2></div><a className="text-link" href={catalogHref()}>Tüm ürünler <ArrowRight size={18}/></a></div><div className="category-grid">{catalogCategories.slice(0,6).map((category,i)=><a className="category-tile" href={catalogHref(category.id)} key={category.id}><div className="category-image"><img src={imagePath(category.image)} alt="" loading="lazy" width="160" height="160"/></div><span className="category-number">0{i+1}</span><h3>{category.shortName}</h3><ArrowUpRight size={18}/></a>)}</div></section>
+    <section className="featured-section"><div className="shell"><div className="section-heading"><div><span className="eyebrow">ÖZLEMCE SEÇKİSİ</span><h2>{home.featuredTitle}</h2></div><p>{home.featuredDescription}</p></div><div className="product-grid featured-grid">{home.featuredIds.flatMap(id=>{const product=catalogProducts.find(p=>p.id===id);return product?[<ProductCard key={id} product={product}/>]:[];})}</div></div></section>
+    <section className="editorial shell"><div className="editorial-photo"><img src={imagePath(home.editorialImage)} alt={home.editorialImageAlt} loading="lazy" width="700" height="700"/><span className="photo-caption">MUTFAK NOTLARI / 01</span></div><div className="editorial-copy"><span className="eyebrow">{home.editorialEyebrow}</span><h2>{home.editorialTitle}<br/><em>{home.editorialAccent}</em></h2><p>{home.editorialDescription}</p><a className="button light" href="#/rehber">{home.editorialButton} <ArrowUpRight size={19}/></a></div></section>
+    <section className="brand-note shell"><span className="eyebrow">ÖZLEMCE ET ENTEGRE TESİSİ</span><h2>{home.brandTitle}<br/><em>{home.brandAccent}</em></h2><a className="text-link" href="#/hakkimizda">Özlemce’yi tanıyın <ArrowRight size={18}/></a></section>
   </>;
 }
 
 function Catalog({ category, query }: { category: string; query: string }) {
+  const {products:catalogProducts}=useCatalog();
   const [search, setSearch] = useState(query);
   const [sort, setSort] = useState('selection');
   useEffect(()=>{setSearch(query);},[query]);
@@ -80,14 +85,16 @@ function Catalog({ category, query }: { category: string; query: string }) {
 }
 
 function ProductDetail({ product }: { product: CatalogProduct }) {
+  const {products:catalogProducts}=useCatalog();
   const category = categoryById(product.category)!;
   const related = catalogProducts.filter(p=>p.id!==product.id).sort((a,b)=>Number(b.category===product.category)-Number(a.category===product.category)).slice(0,3);
   return <div className="shell page-content product-page"><nav className="breadcrumbs" aria-label="Sayfa yolu"><a href={catalogHref()}>Ürünlerimiz</a><span>/</span><a href={catalogHref(product.category)}>{category.shortName}</a><span>/</span><span aria-current="page">{product.name}</span></nav><section className="product-detail"><div className="detail-image"><img src={imagePath(product.image)} alt={`${product.name} için sunum önerisi`} width="700" height="700"/><span>Sunum önerisi</span></div><div className="detail-copy"><a className="eyebrow" href={catalogHref(product.category)}>{category.name}</a><h1>{product.name}</h1><p className="detail-summary">{product.summary}</p><p>{product.description}</p><dl className="product-specs"><div><dt>Kesim / ürün grubu</dt><dd>{product.cut}</dd></div><div><dt>Hazırlama önerisi</dt><dd>{product.methods.map(method=><a href={`#/rehber?yontem=${guides.find(g=>g.name===method)?.id||'tava'}`} key={method}>{method}<ArrowUpRight size={12}/></a>)}</dd></div></dl><div className="product-guidance"><Utensils size={21}/><p>Bu ürünü sofranıza nasıl taşırsınız?<br/><a href={`#/rehber?yontem=${guides.find(g=>g.name===product.methods[0])?.id||'tava'}`}>Hazırlama fikirlerini keşfedin <ArrowRight size={15}/></a></p></div><p className="detail-note">İçerik, alerjen, gramaj ve saklama koşulları ürün ambalajında yer alır. Katalog görselleri sunum önerisidir.</p><a className="text-link" href={catalogHref(product.category)}><ArrowLeft size={17}/> {category.shortName} ürünlerine dön</a></div></section><section className="related-section"><div className="section-heading"><div><span className="eyebrow">KEŞFETMEYE DEVAM EDİN</span><h2>Sofraya başka ne yakışır?</h2></div><a className="text-link" href={catalogHref()}>Tüm ürünler <ArrowRight size={18}/></a></div><div className="product-grid related-grid">{related.map(p=><ProductCard key={p.id} product={p}/>)}</div></section></div>;
 }
 
 function Guide({ method }: {method: string}) {
+  const {products:catalogProducts}=useCatalog();
   const guide = guides.find(g=>g.id===method)||guides[0];
-  const products = catalogProducts.filter(p=>p.methods.includes(guide.name)).slice(0,4);
+  const products = catalogProducts.filter(p=>p.methods.some(method=>method===guide.name)).slice(0,4);
   return <div className="shell page-content"><div className="page-intro"><div><span className="eyebrow">ÖZLEMCE MUTFAK REHBERİ</span><h1>İlhamı seçin.<br/><em>Sofrayı kurun.</em></h1></div><p>Bir kesim, farklı hazırlama biçimleri.<br/>Mutfağınıza uygun başlangıcı bulun.</p></div><nav className="guide-tabs" aria-label="Hazırlama yöntemi">{guides.map(g=><a href={`#/rehber?yontem=${g.id}`} key={g.id} aria-current={g.id===guide.id?'page':undefined}><Flame size={18}/>{g.name}<ArrowUpRight size={16}/></a>)}</nav><section className="guide-feature"><div className="guide-photo"><img src={imagePath(guide.image)} alt={`${guide.name} için et sunumu`} width="700" height="700"/></div><div className="guide-copy"><span className="eyebrow">{guide.name} NOTLARI</span><h2>{guide.title}</h2><p>{guide.text}</p><div className="guide-tip"><span>KÜÇÜK BİR MUTFAK NOTU</span><p>{guide.tip}</p></div></div></section><section className="guide-products"><div className="section-heading"><div><span className="eyebrow">BU YÖNTEME YAKIŞANLAR</span><h2>{guide.name} için seçkimiz.</h2></div><a className="text-link" href={catalogHref('all',guide.name)}>Tümünü incele <ArrowRight size={18}/></a></div><div className="product-grid">{products.map(p=><ProductCard key={p.id} product={p}/>)}</div></section><p className="catalog-disclaimer">Hazırlama ve saklamada ürün ambalajındaki talimatları izleyin. Çiğ ve pişmiş ürünler için ayrı ekipman kullanın; pişme durumunu uygun bir gıda termometresiyle kontrol edin.</p></div>;
 }
 
@@ -106,16 +113,17 @@ function Help() {
 }
 
 function Privacy() {
-  return <div className="shell page-content reading-page"><span className="eyebrow">SİTE KULLANIMI</span><h1>Gizlilik hakkında.</h1><div className="reading-copy"><h2>Sade bir katalog deneyimi</h2><p>Bu site üzerinden üyelik oluşturulmaz; kişisel bilgi, sipariş veya ödeme bilgisi talep eden bir form bulunmaz.</p><h2>Arama ve tercihler</h2><p>Katalog aramaları tarayıcınızda işlenir. Aradığınız kelime ve seçtiğiniz kategori, sayfanın bağlantısındaki # işaretinden sonraki bölümde tutulur. Site, reklam veya analiz çerezi kullanmaz.</p><h2>Barındırma</h2><p>Site GitHub Pages üzerinde barındırılır. Siteye erişiminiz sırasında barındırma hizmeti güvenlik ve işletim amacıyla teknik bağlantı bilgilerini işleyebilir. Ayrıntılar için <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Gizlilik Bildirimi’ni</a> inceleyebilirsiniz.</p></div></div>;
+  return <div className="shell page-content reading-page"><span className="eyebrow">SİTE KULLANIMI</span><h1>Gizlilik hakkında.</h1><div className="reading-copy"><h2>Sade bir katalog deneyimi</h2><p>Ürün kataloğunu incelemek için üyelik gerekmez. Katalogda sipariş veya ödeme bilgisi toplanmaz.</p><h2>Yönetici girişi ve içerik yönetimi</h2><p>Yalnızca yetkili yöneticiler e-posta doğrulaması ve doğrulayıcı uygulamasıyla giriş yapabilir. Giriş, içerik kayıtları ve yüklenen görseller Supabase üzerinden işlenir. Oturum bilgisi sekme oturumu boyunca tarayıcıda saklanır. Yüklenen katalog görselleri herkese açık sunulur. Ayrıntılar için <a href="https://supabase.com/privacy" target="_blank" rel="noopener noreferrer">Supabase Gizlilik Politikası’nı</a> inceleyebilirsiniz.</p><h2>Arama ve tercihler</h2><p>Katalog aramaları tarayıcınızda işlenir. Aradığınız kelime ve seçtiğiniz kategori, sayfanın bağlantısındaki # işaretinden sonraki bölümde tutulur. Site, reklam veya analiz çerezi kullanmaz.</p><h2>Barındırma</h2><p>Site GitHub Pages üzerinde barındırılır. Siteye erişiminiz sırasında barındırma hizmeti güvenlik ve işletim amacıyla teknik bağlantı bilgilerini işleyebilir. Ayrıntılar için <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener noreferrer">GitHub Gizlilik Bildirimi’ni</a> inceleyebilirsiniz.</p></div></div>;
 }
 
 function NotFound() {return <div className="shell empty-state not-found"><span className="eyebrow">404 / SAYFA BULUNAMADI</span><h1>Bu sayfa sofrada yok.</h1><p>Ürün kataloğundan keşfetmeye devam edebilirsiniz.</p><a className="button" href={catalogHref()}>Ürünlerimizi keşfedin <ArrowRight size={18}/></a></div>;}
 
 function Footer() {
-  return <footer className="site-footer"><div className="shell"><div className="footer-main"><div className="footer-brand"><a href={homeHref} aria-label="Özlemce ana sayfa"><OzlemceLogo size="lg"/></a><p>Özenli seçimler.<br/>Paylaşılan sofralar.</p></div><div className="footer-column"><h2>Ürünlerimiz</h2>{catalogCategories.slice(0,4).map(c=><a key={c.id} href={catalogHref(c.id)}>{c.name}</a>)}</div><div className="footer-column"><h2>Keşfedin</h2><a href={catalogHref('charcuterie')}>Şarküteri</a><a href={catalogHref('doner')}>Döner</a><a href={catalogHref('horeca')}>Profesyonel mutfak</a><a href="#/rehber">Mutfak rehberi</a></div><div className="footer-column"><h2>Özlemce</h2><a href="#/hakkimizda">Hakkımızda</a><a href="#/yardim">Sık sorulan sorular</a><a href="#/gizlilik">Gizlilik</a><a className="footer-back" href={homeHref}>Ana sayfaya dön <ArrowUpRight size={15}/></a></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Özlemce Et Entegre Tesisi</span><span>Ürün kataloğu <span className="footer-dot">·</span> Sofranıza ilham verir.</span></div></div></footer>;
+  return <footer className="site-footer"><div className="shell"><div className="footer-main"><div className="footer-brand"><a href={homeHref} aria-label="Özlemce ana sayfa"><OzlemceLogo size="lg"/></a><p>Özenli seçimler.<br/>Paylaşılan sofralar.</p></div><div className="footer-column"><h2>Ürünlerimiz</h2>{catalogCategories.slice(0,4).map(c=><a key={c.id} href={catalogHref(c.id)}>{c.name}</a>)}</div><div className="footer-column"><h2>Keşfedin</h2><a href={catalogHref('charcuterie')}>Şarküteri</a><a href={catalogHref('doner')}>Döner</a><a href={catalogHref('horeca')}>Profesyonel mutfak</a><a href="#/rehber">Mutfak rehberi</a></div><div className="footer-column"><h2>Özlemce</h2><a href="#/hakkimizda">Hakkımızda</a><a href="#/yardim">Sık sorulan sorular</a><a href="#/gizlilik">Gizlilik</a><a href="#/yonetim">Yönetim</a><a className="footer-back" href={homeHref}>Ana sayfaya dön <ArrowUpRight size={15}/></a></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Özlemce Et Entegre Tesisi</span><span>Ürün kataloğu <span className="footer-dot">·</span> Sofranıza ilham verir.</span></div></div></footer>;
 }
 
-export default function App() {
+function Storefront() {
+  const {products:catalogProducts}=useCatalog();
   const [hash, setHash] = useState(window.location.hash);
   const mainRef = useRef<HTMLElement>(null);
   const previousPath = useRef<string | null>(null);
@@ -142,4 +150,23 @@ export default function App() {
   else if(path==='gizlilik') content=<Privacy/>;
   else content=<NotFound/>;
   return <div className="storefront"><a className="skip-link" href="#main-content" onClick={e=>{e.preventDefault();mainRef.current?.focus();}}>İçeriğe geç</a><Header hash={hash}/><main id="main-content" ref={mainRef} tabIndex={-1} data-route={path}>{content}</main><Footer/></div>;
+}
+
+export default function App() {
+  const [hash,setHash]=useState(window.location.hash);
+  const currentHash=useRef(hash);currentHash.current=hash;
+  const dirty=useRef(false);
+  const onDirtyChange=useCallback((value:boolean)=>{dirty.current=value;},[]);
+  useEffect(()=>{const change=()=>{
+    const next=window.location.hash;
+    if(dirty.current&&!['yonetim','admin'].includes(readRoute(next).path)) {
+      if(!window.confirm('Kaydedilmemiş değişiklikleriniz var. Yönetimden ayrılmak istiyor musunuz?')) {
+        window.history.replaceState(null,'',window.location.pathname+window.location.search+currentHash.current);return;
+      }
+      dirty.current=false;
+    }
+    setHash(next);
+  };window.addEventListener('hashchange',change);return()=>window.removeEventListener('hashchange',change);},[]);
+  if(['yonetim','admin'].includes(readRoute(hash).path)) return <Suspense fallback={<div className="catalog-connection" role="status">Yönetim yükleniyor…</div>}><AdminApp onDirtyChange={onDirtyChange}/></Suspense>;
+  return <CatalogProvider><Storefront/></CatalogProvider>;
 }

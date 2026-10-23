@@ -8,3 +8,6 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
 
 .brand-link img,.footer-brand img{mix-blend-mode:multiply}
+
+.hero-copy h1, .hero-copy p, .editorial-copy h2, .editorial-copy p, .section-heading p, .brand-note h2 { white-space: pre-line; }
+.catalog-connection { min-height: 70vh; display: grid; place-content: center; gap: 20px; text-align: center; padding: 32px; font-family: Outfit, sans-serif; }

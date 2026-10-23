@@ -3,6 +3,9 @@
   "include": [
     "src/main.tsx",
     "src/lib/catalog.test.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "src/cms/security.test.ts",
+    "scripts/cms-seed.ts",
+    "scripts/check-cms-config.ts"
   ]
 }
