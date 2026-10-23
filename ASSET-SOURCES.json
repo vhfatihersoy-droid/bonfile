@@ -1,0 +1,57 @@
+{
+  "public/images/steak.jpg": {
+    "source": "https://images.unsplash.com/photo-1607623814075-e51df1bdc82f",
+    "license": "https://unsplash.com/license"
+  },
+  "public/images/bonfile.jpg": {
+    "source": "https://images.unsplash.com/photo-1558030006-450675393462",
+    "license": "https://unsplash.com/license"
+  },
+  "public/images/kemikli.jpg": {
+    "source": "https://images.unsplash.com/photo-1558030006-450675393462",
+    "license": "https://unsplash.com/license"
+  },
+  "public/images/izgara.jpg": {
+    "source": "https://images.unsplash.com/photo-1615937657715-bc7b4b7962c1",
+    "license": "https://unsplash.com/license"
+  },
+  "public/images/kuzu.jpg": {
+    "source": "https://unsplash.com/photos/sliced-raw-meat-with-green-leaves-cvj-7TZjvA0",
+    "creator": "Cindie Hansen",
+    "license": "https://unsplash.com/license"
+  },
+  "public/images/kofte.jpg": {
+    "source": "https://images.unsplash.com/photo-1529042410759-befb1204b468",
+    "license": "https://unsplash.com/license"
+  },
+  "public/images/burger.jpg": {
+    "source": "https://images.unsplash.com/photo-1568901346375-23c9450c58cd",
+    "license": "https://unsplash.com/license"
+  },
+  "public/images/sofra.jpg": {
+    "source": "https://images.unsplash.com/photo-1555939594-58d7cb561ad1",
+    "license": "https://unsplash.com/license"
+  },
+  "public/images/pastirma.jpg": {
+    "source": "https://www.pexels.com/photo/close-up-of-pastirma-beef-26857766/",
+    "creator": "Osman Arabacı",
+    "license": "https://www.pexels.com/license/"
+  },
+  "public/images/doner.jpg": {
+    "source": "https://www.pexels.com/photo/close-up-of-doner-18330027/",
+    "creator": "Valeria Boltneva",
+    "license": "https://www.pexels.com/license/"
+  },
+  "public/images/sarkuteri.jpg": {
+    "source": "https://www.pexels.com/photo/traditional-turkish-sucuk-dish-with-bread-37206716/",
+    "creator": "Mavi Yıldız Restoran Cumalıkızık Bursa",
+    "license": "https://www.pexels.com/license/"
+  },
+  "src/assets/fonts/outfit-variable.ttf": {
+    "source": "https://github.com/google/fonts/tree/main/ofl/outfit",
+    "license": "src/assets/fonts/OFL.txt"
+  },
+  "public/ozlemce-logo.png": {
+    "source": "Existing Bonfile repository brand asset; retained unchanged"
+  }
+}

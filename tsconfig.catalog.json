@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/main.tsx",
+    "src/lib/catalog.test.ts",
+    "vite.config.ts"
+  ]
+}

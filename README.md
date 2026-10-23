@@ -1,66 +1,40 @@
-# Bonfilet - 1905'ten Bugüne Ustalık | E-Ticaret & Google Sites Studio
+# Bonfile · Özlemce Ürün Kataloğu
 
-Türkiye'nin köklü et üreticisi **Bonfilet** (www.bonfilet.com.tr) standartlarında geliştirilmiş, 120 yıllık kasaplık mirasını modern soğuk zincir e-ticaret altyapısı ve Google Sites benzeri görsel site oluşturucu ile birleştiren web uygulaması.
+Özlemce Et Entegre Tesisi için ürün kataloğu ve marka sitesi. Mevcut React / TypeScript / Vite projesi üzerinde geliştirilmiştir.
 
----
+Canlı adres: https://vhfatihersoy-droid.github.io/bonfile/
 
-## 🌟 Öne Çıkan Özellikler
+## İlk yayın kapsamı
 
-### 1. 🥩 Taze Et & Steakhouse E-Ticaret Kataloğu
-- **Dry-Aged Steak Kesimleri**: 28 gün Himalaya tuz odasında dinlendirilmiş Dallas Steak, Dana Bonfile Lokum, T-Bone Steak, Dana Antrikot (Ribeye).
-- **Taze Kuzu & Geleneksel Lezzetler**: Balıkesir kıvırcık kuzu pirzola, fırınlık kuzu incik, marine dana kuşbaşı.
-- **Köfte & Şarküteri**: 1905 reçeteli kasap köfte, smash burger köftesi, doğal fermente Kayseri evlik sucuk, çemenli pastırma ve odun ateşi yaprak döner.
-- **Dinamik Gramaj & Fiyatlandırma**: 500g, 1000g veya toptan koli gramaj seçimiyle anlık hesaplanan fiyatlar ve besin değerleri (protein, yağ, kalori) tablosu.
+- Sade ana sayfa, 7 ürün grubu ve 13 ürün kaydı.
+- Türkçe karakterleri destekleyen arama, kategori filtreleri ve alfabetik sıralama.
+- Paylaşılabilir ürün bağlantıları ve hazırlama yöntemi rehberi.
+- Marka, sık sorulan sorular ve gizlilik sayfaları.
+- Mobil menü, klavye erişimi, azaltılmış hareket tercihi ve yerel görsel/font dosyaları.
 
-### 2. 💳 Çok Kanallı Canlı Ödeme Altyapısı
-- **3D Secure Sanal POS**:
-  - Kart numarası yazılırken Visa / Mastercard / Troy otomatik marka tespiti.
-  - Canlı interaktif kredi kartı önizlemesi.
-  - Peşin, 3 Taksit ve 6 Taksit hesap tablosu.
-  - BKM Express & Banka onaylı **3D Secure SMS OTP modalı** (180s geri sayım, test kodu: `1905`).
-- **Kapıda Ödeme**: Frigorifik kurye teslimatında kapıda nakit veya mobil POS ile temassız ödeme.
-- **Banka Havalesi / EFT**: Garanti BBVA ve İş Bankası kurumsal IBAN hesapları, tek tıkla kopyalama ve sipariş kodu eşleştirmesi.
-- **Sipariş Takip & Yazdırılabilir e-Makbuz**: Benzersiz sipariş takip numarası (`BON-XXXXXX`), soğuk zincir takip aşamaları ve yazdırılabilir fatura dökümü.
+**Bu yayında sipariş, sepet, ödeme, üyelik veya yönetici girişi bulunmaz.** Önceki uygulama Git geçmişinde korunur; üretim giriş noktası eski yönetim veya ödeme bileşenlerini import etmez. `#/admin` gibi tanımsız adresler bulunamadı sayfasına gider. Tarayıcı kayıtlarındaki eski demo verileri canlı kataloğa aktarılmaz.
 
-### 3. 🛠️ Google Sites Benzeri Görsel Site Kurucu (Google Sites Studio)
-- **3 Sekmeli Sağ Panel**:
-  - **EKLE**: Metin kutusu, görsel & metin, butonlar, bento düzen, ürün kataloğu, şef rehberi, Horeca teklif formu, Google Haritalar.
-  - **SAYFALAR**: Ana Sayfa, Ürünlerimiz, Kurumsal & Miras, Şefin Rehberi, Horeca B2B, İletişim & Konum + dilediğiniz kadar yeni sayfa ekleme.
-  - **TEMALAR**: Aristokrat Gurme, Klasik Kasap, Modern Altın, Minimalist Şef temaları.
-- **Bölüm Kontrolleri**: Her bloğun üzerinde zemin rengi değiştirme, çoğaltma, yukarı/aşağı taşıma, gizleme ve silme araçları.
-- **Responsive Simülasyon**: Masaüstü (1440px), Tablet (768px) ve Mobil (375px) önizleme.
-- **HTML Dışa Aktarma**: Tek tıkla çalışan bağımsız `.html` dosyasını indirip istediğiniz hostinge yükleyebilme.
+## Yerelde çalıştırma
 
-### 4. 👨‍🍳 Şefin Pişirme Rehberi & Termometre
-- **Et Pişme Dereceleri**: Az Pişmiş (50°C), Orta Az (55°C), Orta (60°C) ve İyi Pişmiş (71°C) renkli et kesiti simülasyonu.
-- **Döküm Tavada Mühürleme**: 4 aşamalı oda sıcaklığı, kurulama, *arrose* tereyağı banyosu ve dinlendirme rehberi.
-- **HORECA (B2B) Teklif Modülü**: Otel, restoran ve catering zincirleri için doğrulamalı toptan teklif formu.
+Node.js 22.12+ ve pnpm 11.25:
 
----
-
-## 🚀 Kurulum & Çalıştırma
-
-Projeyi yerel makinenizde çalıştırmak için:
-
-```bash
-# Bağımlılıkları yükleyin
-npm install
-
-# Geliştirme sunucusunu başlatın (Port 3000)
-npm run dev
-
-# Üretim derlemesi oluşturun
-npm run build
+```sh
+pnpm install --frozen-lockfile
+pnpm dev
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm preview
 ```
 
----
+`dist/` statik yayın çıktısıdır. Ürünler `src/data/catalog.ts`, metin ve sayfa kurgusu `src/App.tsx`, görünüm `src/storefront.css` üzerinden güncellenir. Görsel kaynakları `ASSET-SOURCES.json` dosyasında, Outfit lisansı `src/assets/fonts/OFL.txt` dosyasındadır. Görseller sunum önerisidir; gerçek ürün ambalajı, içerik ve alerjen bilgisi yerine geçmez.
 
-## 🛠️ Kullanılan Teknolojiler
+## GitHub Pages yayını
 
-- **Frontend**: React 19, TypeScript
-- **Stil & Tasarım**: Tailwind CSS v4, Lucide React Icons
-- **Performans & Derleyici**: Vite 8, ESBuild
+Depo ayarlarında **Pages → Build and deployment → Source: GitHub Actions** kullanılır. `main` dalındaki her değişiklik `.github/workflows/deploy.yml` ile bağımlılık kurulumu, tip kontrolü, test ve derleme sonrası Pages'a yayımlanır. Hash tabanlı gezinme ve göreli dosya yolları `/bonfile/` altında yenileme ve doğrudan ürün bağlantılarının çalışmasını sağlar.
 
----
+Yayın kontrolü: Actions iş akışının başarıyla tamamlandığını doğrulayın; canlı ana sayfayı, bir ürün bağlantısını ve mobil menüyü kontrol edin. Geri dönüş için önceki kaynak commit'ini geri alan bir commit yayımlayın.
 
-© 1905 - 2026 Bonfilet Gıda Sanayi ve Ticaret A.Ş. Tüm hakları saklıdır.
+## Sonraki aşama
+
+Sipariş ve yönetim için sunucu veritabanı, kimlik doğrulaması ve rol bazlı yetkilendirme gerekir. Ödeme sağlayıcısı ancak bunlar tamamlandıktan sonra bağlanmalıdır. Bu sürüm böyle bir altyapı varmış gibi davranmaz ve müşteri bilgisi toplamaz.
